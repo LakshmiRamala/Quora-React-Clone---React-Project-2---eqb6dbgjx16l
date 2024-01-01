@@ -1,0 +1,202 @@
+.AddquestinHome{
+    background-color: white;
+    width: 66%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    height:60px;
+    padding: 16px;
+    border-radius: 4px; 
+}
+#addquestion{
+    position: relative;
+    background-color: #b92b27;
+    color: white;
+    font-size: 14px;
+    border: none;
+    width: 160px;
+    padding: 8px 10px;
+    border-radius: 25px;
+    margin-left: 16px;
+}
+#addquestionDark{
+    position: relative;
+    background-color: #e62e32;
+    color: white;
+    font-size: 14px;
+    border: none;
+    width: 160px;
+    padding: 8px 10px;
+    border-radius: 25px;
+    margin-left: 16px;
+}
+.buttonPre{
+    background-color:white;
+    border: none;
+    text-align: center;
+    width: 30%;
+    cursor: pointer;
+}
+
+
+.border-right{
+    border-right: 1px solid lightgrey;
+}
+
+.profileIconQues{
+    width: 80px;
+    height: 80px;
+}
+.seachHome{
+    background-color: #f7f7f8;
+    border-radius: 25px;
+    border:1px solid lightgrey;
+    height: 30px;
+    font-size: 14px;
+    color: lightgrey;
+    padding-left: 5px;
+}
+.authorImage{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+.postContainer{
+    display: flex;
+    flex-direction: column;
+    width: 70%; 
+}
+.postgrid{
+    margin-top: 1.5%;
+    height: auto;
+    padding: 2%;
+}
+.autorContainer{
+    display: flex;
+    gap: 2%;
+    align-items: center;
+}
+.likedislike{
+    width: 100%;
+}
+.createspacebtn{
+    width: 80%;
+    margin-top: 16%;
+    border: none;
+    padding:10% 4%;
+}
+.createspaceContainer{
+    width: 18%;
+    text-align: left;
+}
+.catogory{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.advertisementContainer{
+    right: 15%;
+    width: 38%;
+    height: 600px;
+    margin-top: 0.5%;
+    top: 0.5%;
+    position: sticky; 
+}
+.MainDark{
+    background-color: #262626;
+    color:8e8f8f;
+}
+.Main{
+    background-color: #fff;
+    color:black;
+}
+.Darkinput{
+    background:#202020 ;
+    border:1px solid #474646;
+    color:#696a67 ;
+}
+.input{
+    background-color: #f7f7f8;
+    border: 1px solid grey;
+    color: black;
+}
+.questionHeading:hover{
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+.addCommentbtn{
+    color:white;
+    background:#3a69ff;
+   border-radius:25px;
+   padding:8px 12px;
+   border: none;
+}
+  
+.addpostcard{position: absolute;
+  top: 100%;
+  margin-top: 4%;
+  z-index: 1;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  width: 70%;
+  height: auto;
+  font-family: Arial, Helvetica, sans-serif;
+   text-align: left;
+}
+.clickquestion{
+    border-bottom: 3px solid #3a69ff;
+   
+}
+.tipscontainer{
+    background-color: #ebf0ff;
+    color: #3a69ff;
+    padding: 2%;
+}
+.textarea{
+   border-left: none;
+   border-top: none;
+   border-right: none;
+   width: 100%;
+   height: 200px;
+   font-size: 18px;
+}
+.textarea:focus{
+   outline: none; 
+}
+.postcreate{
+    width: 100%;
+    height: 80px;
+}
+.postcreate:focus{
+    outline: none;
+}
+.closeImage{
+    position: absolute;
+    top:51%;
+    right: 30%;
+}
+.menuoptions{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0%;
+    >button{
+        cursor: pointer;
+    }
+}
+.MoreCard{
+     position: absolute;
+ bottom: 100%;
+  margin-top: 16%;
+  z-index: 1;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  width: 280%;
+  height: 220%;
+  padding-left: 40%;
+  font-family: Arial, Helvetica, sans-serif;
+  
+   
+}

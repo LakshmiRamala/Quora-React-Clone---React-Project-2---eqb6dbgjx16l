@@ -1,0 +1,47 @@
+#navtab{
+    background-color: white;
+    margin: 0; 
+    padding: 0% ; 
+    width: 100%;
+}
+#navtabDark{
+    background-color: #262626;
+    margin: 0; 
+    padding: 0%; 
+    width: 100%;
+}
+#navitems{
+    display: flex;
+    margin: 0%;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    height:60px; 
+    box-sizing: border-box;
+}
+.navlink{
+    width: 60px;
+    text-align: center;
+}
+.navlist:hover{
+    width: 80%;
+   background-color: rgb(248, 246, 246);
+
+}
+.navlistDark:hover{
+    width: 80%;
+    background-color: rgb(92, 90, 90);
+}
+.searchInput{
+    height: 32px;
+    width: 300px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+}
+
+
+.globe{
+    cursor: pointer;
+  }
+  
+

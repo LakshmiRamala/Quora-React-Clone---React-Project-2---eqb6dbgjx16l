@@ -1,0 +1,152 @@
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../../Assets/loginPage.png");
+    background-size: cover;
+  }
+  .login-content {
+    width: 45vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 0 10px black;
+  }
+  .quoteByQuara {
+    text-align: center;
+    margin: 25px 0;
+  }
+  .quoteByQuara img {
+    max-width: 10vw;
+  }
+  .quoteByQuara h5 {
+    color: #8a8a8a;
+    margin-top: 5px;
+  }
+  .loginOptions {
+    height: 80%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .terms_policy {
+    border-right: 1px solid lightgray;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .terms_policy p {
+    font-size: 12px;
+    line-height: 18px;
+    color: gray;
+  }
+  .terms_policy h4 {
+    text-align: center;
+    font-weight: lighter;
+    color: #8a8a8a;
+  }
+  .terms_policy h4 span a {
+    text-decoration: none;
+    color: blue;
+  }
+  .loginForm {
+    padding-right: 40px;
+  }
+  .form h3 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 10px;
+    font-size: 16px;
+  }
+  .login_label {
+    font-size: 14px;
+    font-weight: 900;
+  }
+  .login_input {
+    margin: 5px 0 20px;
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    border: 1px solid lightgrey;
+  }
+  .btn-login {
+    float: right;
+    width: 80px;
+    height: 40px;
+    border-radius: 25px;
+    border: 0px none;
+    background-color: #8eaeff;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-login:hover {
+    background-color: #4e80ff;
+  }
+  .errormsg {
+    color: red;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .google_btn {
+    width: 80%;
+    height: 45.6px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid lightgray;
+    padding: 0 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .google_btn:hover {
+    background-color: #eee;
+  }
+  .google_logo {
+    object-fit: contain;
+    width: 20px;
+    height: 20px;
+  }
+  .google_logo img {
+    width: 100%;
+  }
+  .google_text p {
+    font-size: 14px;
+    color: #000;
+    font-weight: 100;
+  }
+  .login_policy{
+    background-color: #f1f2f2;
+    font-size: 14px;
+    text-align: center;
+    padding: 24px;
+    margin-top: 10px;
+    color: gray;
+  }
+  
+  @media only screen and (max-width: 640px) {
+    .login-content {
+      width: 80vw;
+      height: auto;
+    }
+    .quoteByQuara h5 {
+      font-size: 2.5vw;
+    }
+    .terms_policy h4 {
+      font-size: 3vw;
+    }
+    .google_btn {
+      width: 40%;
+    }
+    .google_text {
+      display: none;
+    }
+  }
+  
