@@ -1,20 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Like({ post }) {
   const { darkMode } = useContext(DarkModeContext);
   const [likeCount, setLikeCount] = useState(post.likeCount);
-  const [likedPosts, setLikedPosts] = useState(
-    JSON.parse(localStorage.getItem("likedPosts")) || []
-  );
-  const isPostLiked = likedPosts.includes(post._id);
+  const name = JSON.parse(sessionStorage.getItem("userName"));
+  const [likedPosts, setLikedPosts] = useState([]);
+  const [dislikedPosts, setDislikedPosts] = useState([]);
+
 
   useEffect(() => {
-    localStorage.setItem("likedPosts", JSON.stringify(likedPosts));
-  }, [likedPosts]);
+    const storedLikedList = JSON.parse(localStorage.getItem(`${name}`)) || [];
+    setLikedPosts(storedLikedList);
+    const storedDislikeList = JSON.parse(localStorage.getItem(`${name}dislike`)) || [];
+    setDislikedPosts(storedDislikeList);
+  }, [name]);
 
-  const likethepost = async () => {
+  const likeThePost = async () => {
     const token = sessionStorage.getItem("userToken");
     const config = {
       headers: {
@@ -28,19 +32,21 @@ export default function Like({ post }) {
         null,
         config
       );
+      window.location.reload();
+      dispatch({ type: actionTypes.RERENDER });
       setLikedPosts([...likedPosts, post._id]);
-      setLikeCount(likeCount + 1);
+      localStorage.setItem(`${name}`, JSON.stringify([...likedPosts, post._id]));
     } catch (err) {
       console.log(`Error:`, err);
     }
   };
 
-  const dislikePost = async () => {
+  const dislikePost = async (dislikeValue) => {
     const token = sessionStorage.getItem("userToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-        'projectID': "g4hvu8o4jh5h",
+        projectID: "g4hvu8o4jh5h",
       },
     };
     try {
@@ -50,34 +56,56 @@ export default function Like({ post }) {
       );
       const updatedLikedPosts = likedPosts.filter((id) => id !== post._id);
       setLikedPosts(updatedLikedPosts);
-      localStorage.setItem("likedPosts", JSON.stringify(updatedLikedPosts)); 
-      setLikeCount(likeCount - 1);
+      localStorage.setItem(`${name}`, JSON.stringify(updatedLikedPosts));
+      if (dislikeValue) {
+        const updatedDislikedPosts = [...dislikedPosts, post._id];
+        setDislikedPosts(updatedDislikedPosts);
+        localStorage.setItem(`${name}dislike`, JSON.stringify(updatedDislikedPosts));
+      }
+      
+      
+      window.location.reload();
     } catch (err) {
       console.log(`Error:`, err);
     }
   };
-
-  const handleLike = async () => {
-    if (!isPostLiked) {
-      await likethepost();
+const handleLike = async () => {
+    if (likedPosts.includes(post._id)) {
+      dislikePost();
+      const updatedLikedPosts = likedPosts.filter((id) => id !== post._id);
+      setLikedPosts(updatedLikedPosts);
+      localStorage.setItem(`${name}`, JSON.stringify(updatedLikedPosts));
     } else {
-      await dislikePost();
+      likeThePost();
+      if (dislikedPosts.includes(post._id)) {
+        const updatedDislikedPosts = dislikedPosts.filter((id) => id !== post._id);
+        setDislikedPosts(updatedDislikedPosts);
+        localStorage.setItem(`${name}dislike`, JSON.stringify(updatedDislikedPosts));
+      }
+      setLikedPosts([...likedPosts, post._id]);
+      localStorage.setItem(`${name}`, JSON.stringify([...likedPosts, post._id]));
     }
   };
-  
+
   const handleDislike = async () => {
-    if (isPostLiked) {
-      await dislikePost();
+    if (dislikedPosts.includes(post._id)) {
+      dislikePost();
+      const updatedDislikedPosts = dislikedPosts.filter((id) => id !== post._id);
+      setDislikedPosts(updatedDislikedPosts);
+      localStorage.setItem(`${name}dislike`, JSON.stringify(updatedDislikedPosts));
+    } else {
+      dislikePost();
+      setDislikedPosts([...dislikedPosts, post._id]);
+      localStorage.setItem(`${name}dislike`, JSON.stringify([...dislikedPosts, post._id]));
     }
   };
-  
 
   return (
     <div style={{ display: "flex" }}>
       <button
         style={{
           background: darkMode ? "#313131" : "#fff",
-          color: isPostLiked ? "blue" : darkMode ? "#b0b2b5" : "black",
+          color: likedPosts.includes(post._id) ? "#4c94fd" : darkMode ? "#b0b2b5" : "black",
           borderRadius: "25px",
           border: "none",
         }}
@@ -94,8 +122,8 @@ export default function Like({ post }) {
             d="M12 4 3 15h6v5h6v-5h6z"
             className="icon_svg-stroke icon_svg-fill"
             strokeWidth="1.5"
-            stroke={darkMode ? "#b0b2b5" : "#666"}
-            fill="none"
+            stroke={likedPosts.includes(post._id) ? "#4c94fd" : darkMode ? "#b0b2b5" : "#666"}
+            fill={likedPosts.includes(post._id) ? "#4c94fd" : "none"}
             strokeLinejoin="round"
           ></path>
         </svg>
@@ -104,7 +132,7 @@ export default function Like({ post }) {
       <button
         style={{
           background: darkMode ? "#313131" : "#fff",
-          color: darkMode ? "#b0b2b5" : "black",
+          color: dislikedPosts.includes(post._id) ? "red" : darkMode ? "#b0b2b5" : "black",
           border: "none",
           borderLeft: darkMode ? "1px solid #474646" : "1px solid lightgrey",
           borderRadius: "25px",
@@ -115,8 +143,8 @@ export default function Like({ post }) {
           <path
             d="m12 20 9-11h-6V4H9v5H3z"
             className="icon_svg-stroke icon_svg-fill"
-            stroke={darkMode ? "#b0b2b5" : "#666"}
-            fill={"none"}
+            stroke={dislikedPosts.includes(post._id) ? "red" : darkMode ? "#b0b2b5" : "#666"}
+            fill={dislikedPosts.includes(post._id) ? "red" : "none"}
             strokeWidth="1.5"
             strokeLinejoin="round"
           ></path>
@@ -125,4 +153,3 @@ export default function Like({ post }) {
     </div>
   );
 }
-

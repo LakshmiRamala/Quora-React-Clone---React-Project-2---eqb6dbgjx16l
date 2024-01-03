@@ -29,13 +29,17 @@ function Login() {
         config
       );
       const token = res.data.token;
+      console.log("userDetails",res);
       if (token) {
         sessionStorage.setItem("userToken", token);
         sessionStorage.setItem("userName", JSON.stringify(res.data.data.name));
         sessionStorage.setItem("userEmail", JSON.stringify(res.data.data.email));
+        sessionStorage.setItem("user",JSON.stringify(res.data.data._id));
         navigate("/");
         window.location.reload(true);
+
       }
+      
     } catch (err) {
       setMessage("Incorrect Email Id or Password");
       console.log("Error:", err);

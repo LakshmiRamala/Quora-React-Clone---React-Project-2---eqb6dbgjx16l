@@ -90,8 +90,7 @@ export default function Addpost({closeModal,postDetails}) {
         fileInputRef.current.click();
     };
     return (
-        <div className="modal-container"  style={{
-            background: darkMode ? ' #262626' : '#fff',
+        <div className="modal-container"  style={{          
             color: darkMode ? 'white' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid grey',
         }}>

@@ -90,7 +90,7 @@ export default function Addpost({ closeModal }) {
     };
     return (
         <div className="modal-container"  style={{
-            background: darkMode ? ' #262626' : '#fff',
+          
             color: darkMode ? 'white' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid grey',
         }}>

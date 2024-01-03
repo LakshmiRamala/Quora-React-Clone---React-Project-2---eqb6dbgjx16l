@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import axios from "axios";
-import postImage from "../../Assets/Post.jpg";
 import Comment from "./Comment";
 import Like from "./Like";
 import PostEdit from "./PostEdit";
@@ -25,7 +24,9 @@ export default function Postgrid() {
   }, []);
 
   const getPostsData = async () => {
-    if (!hasMore || loading) return;
+    if (!hasMore || loading) {
+      setPage(1);
+    };
     const config = {
       headers: {
         projectId: "g4hvu8o4jh5h",
@@ -45,8 +46,7 @@ export default function Postgrid() {
       } else {
         const initialFollowState = response.data.data.map(() => false);
         setFollowList((prevFollowList) =>
-          prevFollowList.length ? prevFollowList : initialFollowState
-        );
+          prevFollowList.length ? prevFollowList : initialFollowState);
         const initialCommentList = response.data.data.map(() => false);
         setComment((prevComment) => [...prevComment, ...initialCommentList]);
         const newPosts = response.data.data;
@@ -60,13 +60,6 @@ export default function Postgrid() {
     }
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   const handleScroll = () => {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
@@ -74,9 +67,21 @@ export default function Postgrid() {
     const scrolledToBottom = scrollTop + windowHeight >= documentHeight;
 
     if (scrolledToBottom) {
-      getPostsData();
+      setPage((prevPage) => prevPage + 1);
     }
   };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    getPostsData();
+  }, [page]);
+
 
   const handleFollow = (index) => {
     const updatedFollowList = [...followList];
@@ -150,17 +155,16 @@ export default function Postgrid() {
                 </section>
               </div>
               <section>
-                
                 <PostEdit key={post._id} postDetails={post} />
               </section>
             </div>
 
           </section>
-          {comment[index] && <Comment />}
+          {comment[index] && <Comment key={post._id} post={post}/>}
 
         </div>
       ))}
-      {loading && <div className="autorContainer">Loading...</div>}
+      {loading && <div className="autorContainer" style={{color: darkMode ? "#8e8f8f" : "black"}}>Loading...</div>}
 
     </div>
   );
