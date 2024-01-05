@@ -7,19 +7,23 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../utils/UserSlice";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function Addpost({ closeModal }) {
+export default function Addpost({ closeModal, selecttype }) {
+
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
     const [loading, setLoading] = useState(false);
-    const [openquestion, setOpenquestion] = useState(false);
-    const [createpost, setCreatepost] = useState(true);
+    const [openquestion, setOpenquestion] = useState(selecttype);
+    const [createpost, setCreatepost] = useState(!selecttype);
     const titleRef = useRef();
     const contentRef = useRef();
     const user = useSelector(selectUser);
     const [selectedImage, setSelectedImage] = useState(null);
     const fileInputRef = useRef(null);
     const name = JSON.parse(sessionStorage.getItem("userName"));
-    
+    const navigate = useNavigate();
+    const params = useParams();
+    console.log("params", params);
     const createPost = async (post) => {
         setLoading(true);
         try {
@@ -27,15 +31,17 @@ export default function Addpost({ closeModal }) {
             console.log(token);
             const formData = new FormData();
             formData.append('title', post.title);
-            formData.append('content', post.content);
-            if(selectedImage){
+            if (post.content) {
+                formData.append('content', post.content);
+            }
+            if (selectedImage) {
                 formData.append('images', selectedImage);
             }
             formData.append('appType', 'quora');
-            console.log([...formData.entries()]);   
+            console.log([...formData.entries()]);
             const config = {
                 headers: {
-                    projectId: "g4hvu8o4jh5h", 
+                    projectId: "g4hvu8o4jh5h",
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
                 },
@@ -45,7 +51,11 @@ export default function Addpost({ closeModal }) {
                 formData,
                 config
             );
+
+            navigate("/")
             window.location.reload(true);
+
+
             console.log(res);
         } catch (err) {
             console.error("Error:", err);
@@ -53,19 +63,24 @@ export default function Addpost({ closeModal }) {
             setLoading(false);
         }
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const title = titleRef.current ? titleRef.current.value : '';
+        const content = contentRef.current ? contentRef.current.value : '';
+
         const postDetails = {
-            title: titleRef.current.value,
-            content: contentRef.current.value,
+            title,
+            content,
             images: selectedImage,
         };
-        sessionStorage.setItem("postDetails",JSON.stringify(postDetails));
+
+        sessionStorage.setItem("postDetails", JSON.stringify(postDetails));
         await createPost(postDetails);
         closeModal(true);
+
     };
-    
+
 
     const handleCreatepost = () => {
         setOpenquestion(false);
@@ -89,8 +104,7 @@ export default function Addpost({ closeModal }) {
         fileInputRef.current.click();
     };
     return (
-        <div className="modal-container"  style={{
-          
+        <div className="modal-container" style={{
             color: darkMode ? 'white' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid grey',
         }}>
@@ -124,7 +138,7 @@ export default function Addpost({ closeModal }) {
                     <h4 style={{ color: darkMode && "#b1b3b6" }}>{user ? user.username : name} </h4>
                 </section>
                 {openquestion && <section >
-                    <textarea className="textarea border" style={{ background: darkMode ? "black" : '#fff', color: darkMode ? "white" : "black" }} placeholder={`Start your question with ${"What"},${"How"},${"Why"},etc.`} />
+                    <textarea className="textarea border" style={{ background: darkMode ? "black" : '#fff', color: darkMode ? "white" : "black" }} placeholder={`Start your question with ${"What"},${"How"},${"Why"},etc.`} ref={titleRef} />
                 </section>}
                 {createpost && (
                     <section>
@@ -135,8 +149,8 @@ export default function Addpost({ closeModal }) {
                             placeholder="Enter Title"
                             required
                             style={{ width: "90%", fontSize: "18px" }}
-                          ref={titleRef}
-                          className={darkMode? "Darkinput seachHome":"input seachHome"}
+                            ref={titleRef}
+                            className={darkMode ? "Darkinput seachHome" : "input seachHome"}
                         />
                         <br />
                         <label htmlFor="content" style={{ fontSize: '18px' }}>Content: </label>

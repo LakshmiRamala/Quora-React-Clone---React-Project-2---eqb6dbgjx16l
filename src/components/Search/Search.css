@@ -1,0 +1,41 @@
+.results-list{
+    position: absolute;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    margin-top: 1rem;
+    overflow-y: scroll;
+}
+.result-title{
+    padding: 10px 20px;
+}
+.addQuestion{ 
+    color:#4386c5;
+    display: flex;
+   align-items: center;
+   padding:8px 23px;
+}
+.questionSeach{
+   text-decoration: none;
+}
+.search-container{
+    z-index: 999;   
+}
+.sidebaradd p:nth-child(1){
+    color: red;
+    padding: 6px 8px;
+}
+.sidebaradd{
+    font-size: 14px;
+    font-family:-apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+.addbtn{
+    background-color:#427dff;
+    color: white;
+    border: none;
+    font-size: 14px;
+    font-weight: 550;
+    border-radius: 25px;
+    padding: 10px 20px;
+}

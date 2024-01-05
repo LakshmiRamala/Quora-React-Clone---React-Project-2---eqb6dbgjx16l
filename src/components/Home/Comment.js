@@ -32,7 +32,7 @@ export default function Comment({ post }) {
         { content: comment.comment, appType: "quora" },
         config
       );
-      getPostComments();
+      window.location.reload();
     } catch (err) {
       console.log(`Error:`, err);
     }
