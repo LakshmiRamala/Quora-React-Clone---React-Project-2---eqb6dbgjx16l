@@ -116,7 +116,7 @@ export default function Comment({ post }) {
           style={{
             background: darkMode ? "#262626" : "#fff",
             color: darkMode ? "white" : "black",
-            borderBottom: "1px solid #393839"
+            borderBottom:darkMode? "1px solid #393839":"1px solid #dee0e1"
           }}
           className="flexjust"
         >

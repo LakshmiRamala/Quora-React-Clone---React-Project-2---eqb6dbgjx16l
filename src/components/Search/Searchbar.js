@@ -14,7 +14,7 @@ export default function Searchbar() {
     const [searchpost, setSearchPost] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [show, setShow] = useState(false);
-    const navigate = useNavigate();
+   
 
     const openModal = () => {
         setModalOpen(true);
@@ -91,7 +91,7 @@ export default function Searchbar() {
                 <div>
                     <NavLink className="questionSeach flexPro" style={{ color: darkMode ? 'white' : 'black', justifyContent: "flex-start" }} to={`/search/add?q=${inputref.current.value}`}>
                         <SearchIcon style={{ color: "#666666" }} />
-                        <span style={{ color: "#666666" }}>Search:</span> {inputref.current && inputref.current.value}
+                        <span style={{ color: "#666666" }}>Search:</span> {inputref.current.value}
                     </NavLink>
                 </div>
                 {searchpost && searchpost.map((post, index) => (
@@ -99,8 +99,7 @@ export default function Searchbar() {
                         borderBottom: darkMode ? '1px solid #474646' : '1px solid grey',
                         scrollbarColor: darkMode ? 'black black' : '#fff #262626'
                     }} >
-                        <NavLink className="questionSeach" style={{ color: darkMode ? 'white' : 'black' }} to={`/search/${post._id}`} onClick={() => saveToSessionStorage(post)}>
-                            {post.title}
+                        <NavLink className="questionSeach" style={{ color: darkMode ? 'white' : 'black' }} to={`/search/${post._id}?q=${inputref.current.value}`} onClick={() => saveToSessionStorage(post)}>                           {post.title}
                         </NavLink>
                     </div>
                 ))}

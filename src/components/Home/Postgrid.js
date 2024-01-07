@@ -4,6 +4,7 @@ import axios from "axios";
 import Comment from "./Comment";
 import Like from "./Like";
 import PostEdit from "./PostEdit";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Postgrid() {
   const { darkMode } = useContext(DarkModeContext);
@@ -13,12 +14,13 @@ export default function Postgrid() {
   const [followList, setFollowList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [comment, setComment] = useState([]);
+  const user=JSON.parse(sessionStorage.getItem("user"));
 
 
   useEffect(() => {
-    const storedFollowList = JSON.parse(localStorage.getItem("followList")) || [];
+    const storedFollowList = JSON.parse(localStorage.getItem(`${user}_followList`)) || [];
     setFollowList(storedFollowList);
-    const storedCommentlist = JSON.parse(localStorage.getItem("comment")) || [];
+    const storedCommentlist = JSON.parse(localStorage.getItem(`${user}_comment`)) || [];
     setComment(storedCommentlist);
     getPostsData();
   }, []);
@@ -87,7 +89,7 @@ export default function Postgrid() {
     const updatedFollowList = [...followList];
     updatedFollowList[index] = !updatedFollowList[index];
     setFollowList(updatedFollowList);
-    localStorage.setItem("followList", JSON.stringify(updatedFollowList));
+    localStorage.setItem(`${user}_followList`, JSON.stringify(updatedFollowList));
   };
 
 
@@ -95,7 +97,7 @@ export default function Postgrid() {
     const updatedComment = [...comment];
     updatedComment[index] = !updatedComment[index];
     setComment(updatedComment);
-    localStorage.setItem("comment", JSON.stringify(updatedComment));
+    localStorage.setItem(`${user}_comment`, JSON.stringify(updatedComment));
   };
 
 
@@ -108,8 +110,8 @@ export default function Postgrid() {
         }} key={index} className="postgrid" >
           <section >
             <div className="autorContainer">
-              {post.author && post.author.profileImage && (
-                <img src={post.author.profileImage} alt={post.author.name} className="authorImage" />)}
+              {post.author && post.author.profileImage ? (
+                <img src={post.author.profileImage} alt={post.author.name} className="authorImage" />):( <><AccountCircleIcon sx={{ fontSize: 50 }}/></>)}
               <section>
                 <span style={{ color: darkMode ? "white" : "black", fontWeight: 800, }} >
                   {post.author.name}

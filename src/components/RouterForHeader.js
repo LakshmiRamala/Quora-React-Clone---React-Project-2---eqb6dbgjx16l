@@ -13,6 +13,7 @@ import DarkModeProvider from "./utils/DarkModeContext";
 import Searchbar from "./Search/Searchbar";
 import DisplaySearch from "./Search/DisplaySearch";
 import FindQuestion from "./Search/FindQuestion";
+import SingleSpace from "./Space/SingleSpace";
 
 function RouterForHeader() {
   return (
@@ -26,6 +27,7 @@ function RouterForHeader() {
               <Route path="/answer" element={<Answer />} />
               <Route path="/following" element={<Follow />} />
               <Route path="/space" element={<Space />} />
+              <Route path="/space/:id" element={<SingleSpace/>}/>
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/search/add" element={<DisplaySearch />} />
               <Route path="/search/:id" element={<FindQuestion/>}/>   

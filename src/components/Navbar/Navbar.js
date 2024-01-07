@@ -20,7 +20,7 @@ export default function Navbar() {
     }, []);
 
     const initialStates = {
-        home: true,
+        home: false,
         follow: false,
         answer: false,
         space: false,
@@ -31,7 +31,7 @@ export default function Navbar() {
     const [states, setStates] = useState(initialStates);
 
     const handleClick = (state) => {
-        setStates({ ...initialStates, [state]: true, home: state !== 'home' ? false : true });
+        setStates({ ...initialStates, [state]: true });
     };
 
     return (

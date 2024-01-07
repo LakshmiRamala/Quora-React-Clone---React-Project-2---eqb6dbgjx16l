@@ -29,7 +29,11 @@ export default function Profile() {
     sessionStorage.removeItem("userName");
     sessionStorage.removeItem("userEmail");
     window.location.reload(true);
-    navigate("/");
+  
+    navigate("/", { replace: true }); 
+    window.location.reload(true);
+    
+
   };
 
   useEffect(() => {
