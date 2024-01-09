@@ -30,7 +30,6 @@ function Login() {
         config
       );
       const token = res.data.token;
-      console.log("userDetails",res);
       if (token) {
         sessionStorage.setItem("userToken", token);
         sessionStorage.setItem("userName", JSON.stringify(res.data.data.name));

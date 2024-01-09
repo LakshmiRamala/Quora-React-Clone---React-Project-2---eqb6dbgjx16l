@@ -22,13 +22,11 @@ export default function Addpost({ closeModal, selecttype }) {
     const navigate = useNavigate();
     const params = useParams();
   const { isLoggedIn } = useAuth();
-    console.log("params", params);
     const createPost = async (post) => {
         setLoading(true);
         if (isLoggedIn) {
         try {
             const token = sessionStorage.getItem("userToken");
-            console.log(token);
             const formData = new FormData();
             formData.append('title', post.title);
             if (post.content) {
@@ -38,7 +36,6 @@ export default function Addpost({ closeModal, selecttype }) {
                 formData.append('images', selectedImage);
             }
             formData.append('appType', 'quora');
-            console.log([...formData.entries()]);
             const config = {
                 headers: {
                     projectId: "g4hvu8o4jh5h",
@@ -54,9 +51,6 @@ export default function Addpost({ closeModal, selecttype }) {
 
             navigate("/")
             window.location.reload(true);
-
-
-            console.log(res);
         } catch (err) {
             console.error("Error:", err);
         } finally {

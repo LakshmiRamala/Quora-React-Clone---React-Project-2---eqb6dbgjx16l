@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
 import axios from "axios";
 export default function AnswerModel({ closeModal,post}){
-    console.log(post,"post");
     const { darkMode } = useContext(DarkModeContext);
     const name = JSON.parse(sessionStorage.getItem("userName"));
     const commentRef = useRef();

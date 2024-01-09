@@ -44,8 +44,7 @@ export default function Postgrid() {
         `https://academics.newtonschool.co/api/v1/quora/post?limit=10&page=${page}`,
         config
       );
-      console.log(response.data.data);
-
+    
       if (response.data.data.length === 0) {
         setHasMore(false);
       } else {

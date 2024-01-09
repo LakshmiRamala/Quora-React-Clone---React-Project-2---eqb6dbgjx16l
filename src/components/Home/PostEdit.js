@@ -31,7 +31,7 @@ export default function PostEdit({ postDetails }) {
                 config
             );
             window.location.reload(true);
-            console.log(res); 
+           
         } catch (err) {
             console.log(err);
         }}else{

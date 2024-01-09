@@ -34,7 +34,7 @@ export default function Space() {
                 config
             );
             setPostlist(res.data.data);
-            console.log(res);
+        
         } catch (err) {
             console.error("Error:", err);
         }
@@ -53,7 +53,6 @@ export default function Space() {
 
     const [space, setSpace] = useState(() => {
         const storedSpace = localStorage.getItem("createatespace");
-        console.log(storedSpace);
         return storedSpace ? JSON.parse(storedSpace) : []; 
       });
 

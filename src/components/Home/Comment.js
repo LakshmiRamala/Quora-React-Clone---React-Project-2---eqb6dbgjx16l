@@ -57,7 +57,6 @@ export default function Comment({ post }) {
       );
 
       setCommentDetails(response.data.data || []);
-      console.log("post data", response.data.data);
     } catch (err) {
       console.log(`Error:`, err);
     }
@@ -78,7 +77,6 @@ export default function Comment({ post }) {
         `https://academics.newtonschool.co/api/v1/quora/comment/${commentId}`,
         config
       );
-      console.log("Deleted comment:", response.data.data);
       getPostComments(); 
     } catch (err) {
       console.log(`Error:`, err);

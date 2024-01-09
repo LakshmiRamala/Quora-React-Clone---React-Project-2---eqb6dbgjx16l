@@ -34,7 +34,6 @@ export default function Addpost({closeModal,postDetails}) {
                 formData.append('images', selectedImage);
             }
             
-            console.log([...formData.entries()]);
             const config = {
                 headers: {
                     projectId:"g4hvu8o4jh5h",
@@ -48,7 +47,6 @@ export default function Addpost({closeModal,postDetails}) {
                 config
             );
             window.location.reload(true);
-            console.log(res);
         } catch (err) {
             console.error("Error:", err);
         } finally {

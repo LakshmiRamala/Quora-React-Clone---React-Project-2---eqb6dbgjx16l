@@ -34,7 +34,6 @@ export default function Newspace({ closeModal }) {
             const updatedData = [...storedData, res.data.data];
            localStorage.setItem("createatespace", JSON.stringify(updatedData));
             setCreatedSpace(res.data.data);
-            console.log("space",res);
             alert("Your space was created successfully!!!");
             navigate("/space");
             window.location.reload();
