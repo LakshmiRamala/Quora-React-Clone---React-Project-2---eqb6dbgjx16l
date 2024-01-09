@@ -17,12 +17,10 @@ export default function CreateSpace() {
   const openModal = () => {
     setModalOpen(true);
   };
+  const storedSpace = localStorage.getItem("createatespace");
+  const initialSpace = storedSpace ? JSON.parse(storedSpace) : [];
 
-  const [space, setSpace] = useState(() => {
-    const storedSpace = localStorage.getItem("createatespace");
-    console.log(storedSpace);
-    return storedSpace ? JSON.parse(storedSpace) : []; 
-  });
+  const [space, setSpace] = useState(initialSpace);
   
 
   const userId = JSON.parse(sessionStorage.getItem("user"));
@@ -37,7 +35,7 @@ export default function CreateSpace() {
         <span style={{ backgroundColor: darkMode ? "#262626" : "#eceded" }}>+ </span> Create Space
       </button>
       <section className="catogory" style={{ color: darkMode ? '#acaeb1' : 'black', borderBottom: darkMode ? "1px solid #474646" : "1px solid lightgrey" }}>
-        {space &&
+        {Array.isArray(space)  &&
           space.map((post, index) => {
             if (post.owner === userId) {
               return (
@@ -48,24 +46,26 @@ export default function CreateSpace() {
             }
             return null;
           })}
-        <span className="flexPro" style={{ gap: "10px" }}>
+        <span className="flexPro" style={{ gap: "10px",  cursor: "not-allowed" }}>
           <img src={scienceofeveryday} width="30px" alt="Science of Everyday Life" />
           <p>Science of Everyday Life</p>
         </span>
-                <span className="flexPro" style={{gap:"10px"}}><img src={smartphones} alt="smartphones" width="30px"/><p>Smartphones</p></span>
-                <span className="flexPro" style={{gap:"10px"}}><img src={politics} alt="politics" width="30px"/><p>Politics</p></span>
-                <span className="flexPro" style={{gap:"10px"}}><img src={psychology} alt="psychology" width="30px"/><p>Psychology</p></span>
-                <span className="flexPro" style={{gap:"10px"}}><img src={history} alt="history" width="30px"/><p>History</p></span>
-                <span className="flexPro" style={{gap:"10px"}}><img src={books}  alt="books" width="30px"/><p>Books</p></span>
-                <span className="flexPro" style={{gap:"10px"}}><img src={highereducation} alt="education" width="30px"/><p>Higher Education</p></span>
-                <span className="flexPro" style={{gap:"10px"}}><img src={technology} alt="technology" width="30px"/><p>Technology</p></span>
+
+                <span className="flexPro" style={{gap:"10px",cursor: "not-allowed" }}><img src={smartphones} alt="smartphones" width="30px"/><p>Smartphones</p></span>
+                <span className="flexPro" style={{gap:"10px",cursor: "not-allowed" }}><img src={politics} alt="politics" width="30px"/><p>Politics</p></span>
+                <span className="flexPro" style={{gap:"10px",cursor: "not-allowed" }}><img src={psychology} alt="psychology" width="30px"/><p>Psychology</p></span>
+                <span className="flexPro" style={{gap:"10px",cursor: "not-allowed" }}><img src={history} alt="history" width="30px"/><p>History</p></span>
+                <span className="flexPro" style={{gap:"10px",cursor: "not-allowed" }}><img src={books}  alt="books" width="30px"/><p>Books</p></span>
+                <span className="flexPro" style={{gap:"10px",cursor: "not-allowed" }}><img src={highereducation} alt="education" width="30px"/><p>Higher Education</p></span>
+                <span className="flexPro" style={{gap:"10px",cursor: "not-allowed" }}><img src={technology} alt="technology" width="30px"/><p>Technology</p></span>
             </section>
             <section style={{fontSize:"16px",
-            color: darkMode ? '#8e9092' : '#939598',padding:"1% 3%"}} >
+            color: darkMode ? '#8e9092' : '#939598',padding:"1% 3%",cursor: "not-allowed" }} >
             About • Careers • Terms • Privacy • Acceptable Use • Businesses • Press • Your Ad Choices • Grievance Officer
 
             </section>
             {modalOpen && <Newspace  closeModal={() => setModalOpen(false)}/>}
+          
         </div>
     )
 }

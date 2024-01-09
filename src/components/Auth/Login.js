@@ -1,12 +1,10 @@
 import React, { useRef, useEffect } from "react";
-import google from "../../Assets/google.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useState } from "react";
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../utils/Firebase";
 import axios from "axios";
 import Signup from "./Signup";
+import { useAuth } from "./AuthProvider";
 
 function Login() {
   const emailRef = useRef();
@@ -14,6 +12,9 @@ function Login() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const { state } = useLocation();
+  const { setIsLoggedIn } = useAuth();
+  
 
   const loginUser = async (user) => {
     const config = {
@@ -35,8 +36,13 @@ function Login() {
         sessionStorage.setItem("userName", JSON.stringify(res.data.data.name));
         sessionStorage.setItem("userEmail", JSON.stringify(res.data.data.email));
         sessionStorage.setItem("user",JSON.stringify(res.data.data._id));
-        navigate("/");
-        window.location.reload(true);
+        setIsLoggedIn(true);
+        if (state) {
+          navigate(state.prevPath);
+        } else {
+          navigate("/");
+        }
+
 
       }
       
@@ -55,19 +61,6 @@ function Login() {
     loginUser(userDetails);
   };
 
-  const handleGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        navigate("/");
-        sessionStorage.setItem("userToken",accessToken);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error("Google Auth Error:", errorCode, errorMessage);
-        setMessage("Google Authentication Failed");
-      });
-  };
   const openModal = () => {
     setModalOpen(true);
   }
@@ -76,8 +69,8 @@ function Login() {
     document.title = "Quora | Login";
   }, []);
   return (
-    <div className="login-container">
-      <div className="login-content">
+    <div className="login-container" >
+      <div className="login-content" style={{width:window.innerWidth<=768 && "90%"}}>
       <form onSubmit={handleSubmit}>
         <div className="quoteByQuara">
           <img
@@ -88,23 +81,14 @@ function Login() {
         </div>
         <div className="loginOptions">
           <div className="terms_policy">
-            <p style={{fontSize:"15px"}}>
+            <p style={{fontSize:"15px",cursor:"not-allowed"}}>
               By continuing you indicate that you agree to Quora's <span style={{color:"blue"}}>Terms of
               Service</span> and <span style={{color:"blue"}}>Privacy Policy.</span>
             </p>
-            <div className="google_btn" onClick={handleGoogle}>
-              <div className="google_logo">
-                <img src={google} alt="google" />
-              </div>
-              <div className="google_text">
-                <p style={{fontSize:"18px"}}>Continue with Google</p>
-              </div>
-            </div>
             <h4>
               Don't have an account?
               <span style={{color:"blue",cursor:"pointer"}} onClick={openModal}>
                 Signup
-            
               </span>
             </h4>
           </div>
@@ -150,7 +134,7 @@ function Login() {
             </div>
           </div>
         </form>
-        <div className="login_policy">
+        <div className="login_policy" style={{cursor:"not-allowed"}}>
             About • Careers • Terms • Privacy • Acceptable Use • Businesses • Press • Your Ad Choices • Grievance Officer
             </div>
             {modalOpen && (

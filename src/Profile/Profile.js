@@ -1,20 +1,16 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { DarkModeContext } from "./DarkModeContext";
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { DarkModeContext } from "../components/utils/DarkModeContext";
 import { useNavigate } from "react-router-dom";
-import { auth } from "./Firebase";
-import { Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectUser } from "../utils/UserSlice";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { useAuth } from "../components/Auth/AuthProvider";
 export default function Profile() {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  const user = useSelector(selectUser);
   const name=JSON.parse(sessionStorage.getItem("userName"));
-  
+  const { isLoggedIn } = useAuth();
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -24,17 +20,21 @@ export default function Profile() {
   };
 
   const handlelogout = () => {
-    auth.signOut();
     sessionStorage.removeItem("userToken");
     sessionStorage.removeItem("userName");
     sessionStorage.removeItem("userEmail");
-    window.location.reload(true);
+    sessionStorage.removeItem("userContry");
+        sessionStorage.removeItem("userPhone");
+   sessionStorage.removeItem("user");
   
-    navigate("/", { replace: true }); 
+    navigate("/login", { replace: true }); 
     window.location.reload(true);
     
 
   };
+  const handlesettings=()=>{
+    navigate("/settings");
+  }
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -55,10 +55,10 @@ export default function Profile() {
   }, [isOpen]);
 
   return (
-    <div className="globeContainer">
-     {user && <div id="ProfileIcon" onClick={toggleDropdown}>
-      <Avatar src={user?.photo} alt="profile_img" />
-      </div>}
+    <div className="globeContainer" style={{
+      color: darkMode ? "#8e8f8f" : "black",
+    }} >
+      {!name && <AccountCircleIcon className="Profile" sx={{fontSize: 40}} style={{marginLeft:"10px"}} onClick={toggleDropdown}/>}  
      {name && <main id="ProfileIcon" onClick={toggleDropdown}>{name.charAt(0).toUpperCase()}</main>}
       {isOpen && (
         <div className="globeCard ProfileCard" ref={dropdownRef}
@@ -66,17 +66,17 @@ export default function Profile() {
             background: darkMode ? '#262626' : '#fff',
             color: darkMode ? '#d5d6d6' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid lightgrey',
-            
+            paddingRight:"80px"
           }}>
           <section>
-          <div style={{padding:"0% 3%",paddingTop:"10%",borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey'}}>
+          <div style={{padding:"0% 3%",paddingTop:"10%",borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey', background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",}}>
             
-            {user &&<Avatar src={user?.photo} alt="profile_img" style={{width:"50px",height:"50px"}}/>}
-            {name && <main id="ProfileIcon" onClick={toggleDropdown} style={{width:"50px",height:"50px"}}>{name.charAt(0).toUpperCase()}</main>}
+          {!name && <AccountCircleIcon className="Profile"  sx={{fontSize: 60}}  />}  
+            {name && <main id="ProfileIcon"  style={{width:"50px",height:"50px",fontSize:"24px"}} >{name.charAt(0).toUpperCase()}</main>}
            
-          <div className="flexjust"><h3>{user ? user.username:name} </h3><span><KeyboardArrowRightIcon/></span></div>
+            <div className="flexjust"><h3>{name} </h3><span><KeyboardArrowRightIcon/></span></div>
           </div>
-          <section style={{padding:"1% 3%",borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey'}}>
+          <section style={{padding:"1% 3%",borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey',cursor:"not-allowed"}}>
             <p className="flexside"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><path d="M7 4.5h8a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-3l-3.5 4v-4H7a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3Zm13 8a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2v2l-2-2h-2" className="icon_svg-stroke" strokeWidth="1.5" stroke={darkMode ?"#d5d6d6" : "#666"} strokeLinecap="round" strokeLinejoin="round"></path><g className="icon_svg-fill_as_stroke" fill={darkMode ?"#d5d6d6" : "#666"}><circle cx="8" cy="10.5" r="1"></circle><circle cx="11" cy="10.5" r="1"></circle><circle cx="14" cy="10.5" r="1"></circle></g></g></svg>Messages</p>
             <p className="flexside"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9.5 17 5v12L3 12.5v-3Zm4.853 4.56L9.5 19H7l-1.947-5.84 2.8.9ZM19.5 7.5l2-1-2 1Zm0 3.5H22h-2.5Zm0 3.5 2 1-2-1ZM8 10.4l6-1.9-6 1.9Z" className="icon_svg-stroke" stroke={darkMode ?"#d5d6d6" : "#666"} strokeWidth="1.5" fill="none" strokeLinejoin="round"></path></svg>Create Ad</p>
             <p className="flexside"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.5 4v16m3.75-13H9.625C8.175 7 7 8.12 7 9.5S8.175 12 9.625 12h3.75C14.825 12 16 13.12 16 14.5S14.825 17 13.375 17H7" className="icon_svg-stroke" stroke={darkMode ?"#d5d6d6" : "#666"} strokeWidth="1.5" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round"></path></svg>Monetization</p>
@@ -94,13 +94,15 @@ export default function Profile() {
                 />
                 <span className="slider round"></span>
               </label></p>
-            <p>Settings</p>
-            <p>Languages</p>
-            <p>Help</p>
-            <p onClick={handlelogout}>Logout</p>
+            <p onClick={handlesettings}>Settings</p>
+            <p style={{cursor:"not-allowed"}}>Languages</p>
+            <p style={{cursor:"not-allowed"}}>Help</p>
+           {!(isLoggedIn) && ( <p onClick={()=>navigate("/login")}>Login</p>)}
+            {isLoggedIn && <p onClick={handlelogout}>Logout</p>}
+            
             </section>
             <section style={{fontSize:"13px", background: darkMode ? '#202020' : '#f7f7f8',
-            color: darkMode ? '#8e9092' : '#939598',padding:"1% 3%",  border: darkMode ? '1px solid #474646' : '1px solid lightgrey',}} >
+            color: darkMode ? '#8e9092' : '#939598',padding:"1% 3%",  border: darkMode ? '1px solid #474646' : '1px solid lightgrey',cursor:"not-allowed"}} >
             About • Careers • Terms • Privacy • Acceptable Use • Businesses • Press • Your Ad Choices • Grievance Officer
             </section>
           </section>

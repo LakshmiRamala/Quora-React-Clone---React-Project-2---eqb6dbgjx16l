@@ -1,23 +1,25 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
-import { useSelector } from "react-redux";
-import { selectUser } from "../utils/UserSlice";
-import { Avatar } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import axios from "axios";
+import { useAuth } from "../Auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function Comment({ post }) {
   const { darkMode } = useContext(DarkModeContext);
-  const user = useSelector(selectUser);
   const name = JSON.parse(sessionStorage.getItem("userName"));
   const commentRef = useRef();
   const [commentDetails, setCommentDetails] = useState([]);
   const authorId = JSON.parse(sessionStorage.getItem("user"));
+  const { isLoggedIn } = useAuth();
+  const navigate=useNavigate();
 
   useEffect(() => {
     getPostComments();
   }, [name, post._id]); 
 
   const commentThePost = async (comment) => {
+    if (isLoggedIn) {
     const token = sessionStorage.getItem("userToken");
     const config = {
       headers: {
@@ -36,13 +38,15 @@ export default function Comment({ post }) {
     } catch (err) {
       console.log(`Error:`, err);
     }
+  }else{
+    navigate("/login");
+  }
   };
 
   const getPostComments = async () => {
     const token = sessionStorage.getItem("userToken");
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
         projectID: "g4hvu8o4jh5h",
       },
     };
@@ -57,9 +61,11 @@ export default function Comment({ post }) {
     } catch (err) {
       console.log(`Error:`, err);
     }
+  
   };
 
   const deleteComment = async (commentId) => {
+    if(isLoggedIn){
     const token = sessionStorage.getItem("userToken");
     const config = {
       headers: {
@@ -76,6 +82,8 @@ export default function Comment({ post }) {
       getPostComments(); 
     } catch (err) {
       console.log(`Error:`, err);
+    }}else{
+      navigate("/login")
     }
   };
 
@@ -88,10 +96,8 @@ export default function Comment({ post }) {
 
   return (
     <div style={{ marginTop: "1%" }}>
-      <section className="flexPro" style={{ gap: "12px" }}>
-        {user && (
-          <Avatar src={user?.photo} alt="profile_img" style={{ width: "40px", height: "40px" }} />
-        )}
+      <section className="flexPro" style={{ gap: "12px",background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",}}>
+      {!name && <AccountCircleIcon className="Profile" sx={{fontSize: 40}} />} 
         {name && (
           <main id="ProfileIcon" style={{ width: "40px", height: "40px" }}>
             {name.charAt(0).toUpperCase()}
@@ -107,7 +113,7 @@ export default function Comment({ post }) {
           required
         />
         <button className="addCommentbtn" onClick={handleComment}>
-          Add comment
+          {window.innerWidth>768? "Add comment":"Add"}
         </button>
       </section>
       {commentDetails.map((comment, index) => (

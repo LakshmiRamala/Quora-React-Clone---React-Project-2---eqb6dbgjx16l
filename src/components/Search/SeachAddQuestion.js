@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 export default function SearchAddQuestion(){
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
     return (
-        <section style={{ color: darkMode ? '#d5d6d6' : 'black',width:"10%"}} className="createspaceContainer">
+        <section style={{ color: darkMode ? '#d5d6d6' : 'black',width:"10%",cursor:"not-allowed"}} className="createspaceContainer">
             <div >
                 <h3 style={{borderBottom: darkMode ? '1px solid #474646' : '1px solid grey'}}>By type</h3>
                 <section className="sidebaradd">
@@ -33,7 +33,7 @@ export default function SearchAddQuestion(){
                 <p>Past day</p>
                 <p>Past week</p>
                 <p>Past month</p>
-                <p>Pasy year</p>
+                <p>Past year</p>
                 </section>
             </div>
         </section>

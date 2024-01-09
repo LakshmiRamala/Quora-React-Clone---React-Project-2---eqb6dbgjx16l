@@ -4,14 +4,19 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import axios from "axios";
 import Editpost from "./Editpost";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
 export default function PostEdit({ postDetails }) {
     const { darkMode } = useContext(DarkModeContext);
     const name = JSON.parse(sessionStorage.getItem("userName"));
     const [isOpen, setIsOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth();
     
 
     const deletePost = async () => {
+        if(isLoggedIn){
         try {
             const token = sessionStorage.getItem("userToken");
             const config = {
@@ -29,6 +34,8 @@ export default function PostEdit({ postDetails }) {
             console.log(res); 
         } catch (err) {
             console.log(err);
+        }}else{
+            navigate("/login");
         }
     };
     

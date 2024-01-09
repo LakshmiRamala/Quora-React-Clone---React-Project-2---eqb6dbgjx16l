@@ -20,6 +20,19 @@
   width: 200px;
   height: 300px;
 }
+.profilesetting{
+  background-color:#181818;
+  border: none;
+  color: #ffffff;
+  width: 50%;
+
+}
+.darkProfilsettng{
+  background-color:#f1f2f2;
+  color: black;
+  border: none;
+  width: 50%;
+}
 .switch {
   position: relative;
   display: inline-block;
@@ -151,7 +164,7 @@ left:0;
 background-color: rgba(47, 47, 47, 0.9);
 width: 100%;
 height: 100%;
-z-index: 2;
+z-index: 6;
 display: flex;
 justify-content: center;
 align-items: center;

@@ -1,14 +1,12 @@
 import React, { useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import "../Auth/Login.css";
 import { useState } from "react";
-import { useEffect } from "react";
 import axios from "axios";
-import { Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectUser } from "../utils/UserSlice";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { DarkModeContext } from "../utils/DarkModeContext";
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function Addpost({closeModal,postDetails}) {
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
@@ -17,13 +15,16 @@ export default function Addpost({closeModal,postDetails}) {
     const [createpost, setCreatepost] = useState(true);
     const  [title,setTitle]=useState(postDetails.title);
     const [content,setContent] = useState(postDetails.content);
-    const user = useSelector(selectUser);
     const [selectedImage, setSelectedImage] = useState(null);
     const [fileimage,setfileimage]= useState(null);
     const name = JSON.parse(sessionStorage.getItem("userName"));
+    const fileInputRef = useRef(null);
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth(); 
     sessionStorage.setItem("postDetails",JSON.stringify(postDetails));
     const createPost = async (post) => {
         setLoading(true);
+        if(isLoggedIn){
         try {
             const token = sessionStorage.getItem("userToken");
             const formData = new FormData();
@@ -52,6 +53,8 @@ export default function Addpost({closeModal,postDetails}) {
             console.error("Error:", err);
         } finally {
             setLoading(false);
+        }}else{
+            navigate("/login")
         }
     };
     
@@ -118,10 +121,10 @@ export default function Addpost({closeModal,postDetails}) {
                         </div>
                     )
                 }
-                <section style={{ display: "flex", alignItems: "center", gap: "2" }}>
-                    {user && <Avatar src={user?.photo} alt="profile_img" style={{ width: "20px", height: "20px" }} />}
+                <section style={{ display: "flex", alignItems: "center", gap: "2", color: darkMode ? "#8e8f8f" : "black", }}>
+                {!name && <AccountCircleIcon className="Profile" sx={{fontSize: 40}} />} 
                     {name && <main id="ProfileIcon" style={{ width: "20px", height: "20px" }}>{name.charAt(0).toUpperCase()}</main>}
-                    <h4 style={{ color: darkMode && "#b1b3b6" }}>{user ? user.username : name} </h4>
+                    <h4 style={{ color: darkMode && "#b1b3b6" }}>{ name} </h4>
                 </section>
                 {openquestion && <section >
                     <textarea className="textarea border" style={{ background: darkMode ? "black" : '#fff', color: darkMode ? "white" : "black" }} placeholder={`Start your question with ${"What"},${"How"},${"Why"},etc.`} />
@@ -175,6 +178,7 @@ export default function Addpost({closeModal,postDetails}) {
                             onChange={handleImageChange}
                             style={{ display: 'none' }}
                             value={fileimage}
+                            ref={fileInputRef}
                         />
                         <label htmlFor="fileInput" onClick={handleIconClick}>
                             <CollectionsOutlinedIcon />

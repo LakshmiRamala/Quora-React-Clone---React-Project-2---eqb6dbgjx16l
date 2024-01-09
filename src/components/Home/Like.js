@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function Like({ post }) {
   const { darkMode } = useContext(DarkModeContext);
@@ -9,6 +10,8 @@ export default function Like({ post }) {
   const name = JSON.parse(sessionStorage.getItem("userName"));
   const [likedPosts, setLikedPosts] = useState([]);
   const [dislikedPosts, setDislikedPosts] = useState([]);
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
 
   useEffect(() => {
@@ -19,6 +22,7 @@ export default function Like({ post }) {
   }, [name]);
 
   const likeThePost = async () => {
+    if(isLoggedIn){
     const token = sessionStorage.getItem("userToken");
     const config = {
       headers: {
@@ -38,6 +42,8 @@ export default function Like({ post }) {
       localStorage.setItem(`${name}`, JSON.stringify([...likedPosts, post._id]));
     } catch (err) {
       console.log(`Error:`, err);
+    }}else{
+      navigate("/login");
     }
   };
 

@@ -1,13 +1,12 @@
 import React, { useContext, useRef } from "react";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import "../Auth/Login.css";
 import { useState } from "react";
 import axios from "axios";
-import { Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectUser } from "../utils/UserSlice";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function Addpost({ closeModal, selecttype }) {
 
@@ -17,15 +16,16 @@ export default function Addpost({ closeModal, selecttype }) {
     const [createpost, setCreatepost] = useState(!selecttype);
     const titleRef = useRef();
     const contentRef = useRef();
-    const user = useSelector(selectUser);
     const [selectedImage, setSelectedImage] = useState(null);
     const fileInputRef = useRef(null);
     const name = JSON.parse(sessionStorage.getItem("userName"));
     const navigate = useNavigate();
     const params = useParams();
+  const { isLoggedIn } = useAuth();
     console.log("params", params);
     const createPost = async (post) => {
         setLoading(true);
+        if (isLoggedIn) {
         try {
             const token = sessionStorage.getItem("userToken");
             console.log(token);
@@ -62,6 +62,9 @@ export default function Addpost({ closeModal, selecttype }) {
         } finally {
             setLoading(false);
         }
+    }else{
+        navigate("/login");
+    }
     };
 
     const handleSubmit = async (e) => {
@@ -101,14 +104,15 @@ export default function Addpost({ closeModal, selecttype }) {
         }
     };
     const handleIconClick = () => {
-        fileInputRef.current.click();
+        fileInputRef.current.click(); 
     };
     return (
         <div className="modal-container" style={{
             color: darkMode ? 'white' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid grey',
+          
         }}>
-            <div className="Signup-container" style={{ height: "70%", width: "45%", background: darkMode ? "black" : '#fff', position: "relative" }}>
+            <div className="Signup-container" style={{ height: "70%", width: "45%", background: darkMode ? "black" : '#fff', position: "relative",  width:window.innerWidth<=768 && "80%", }}>
                 <button className="close" onClick={() => closeModal(false)} style={{
                     background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black',
                 }}>
@@ -132,10 +136,11 @@ export default function Addpost({ closeModal, selecttype }) {
                         </div>
                     )
                 }
-                <section style={{ display: "flex", alignItems: "center", gap: "2" }}>
-                    {user && <Avatar src={user?.photo} alt="profile_img" style={{ width: "20px", height: "20px" }} />}
+                <section style={{ display: "flex", alignItems: "center", gap: "2%",  color: darkMode ? "#8e8f8f" : "black", }}>
+                    
+                {!name && <AccountCircleIcon className="Profile" sx={{fontSize: 30}} />} 
                     {name && <main id="ProfileIcon" style={{ width: "20px", height: "20px" }}>{name.charAt(0).toUpperCase()}</main>}
-                    <h4 style={{ color: darkMode && "#b1b3b6" }}>{user ? user.username : name} </h4>
+                    <h4 style={{ color: darkMode && "#b1b3b6" }}>{ name} </h4>
                 </section>
                 {openquestion && <section >
                     <textarea className="textarea border" style={{ background: darkMode ? "black" : '#fff', color: darkMode ? "white" : "black" }} placeholder={`Start your question with ${"What"},${"How"},${"Why"},etc.`} ref={titleRef} />

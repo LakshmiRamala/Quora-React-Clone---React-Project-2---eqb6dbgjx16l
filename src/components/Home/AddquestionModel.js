@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Addpost from "./Addpost";
 export default function AddquestionModel() {
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
@@ -21,14 +22,18 @@ export default function AddquestionModel() {
 
     return (
         <div className="globeContainer">
-            <button id={darkMode ? "addquestionDark" : "addquestion"} >
+            {window.innerWidth>768 && (<button id={darkMode ? "addquestionDark" : "addquestion"} >
                 Add question  <FontAwesomeIcon icon={faAngleDown} onClick={toggleDropdown} />
-            </button>
+            </button>)}
+            {window.innerWidth<=768 && (<button id="resaddquestion"  className="flexPro" onClick={toggleDropdown}>
+               <AddCircleOutlineIcon sx={{ fontSize: 30 }}/><span style={{fontSize:"18px"}}> Add </span>
+            </button>)}
             {isOpen && (<div className="addpostcard"
                 style={{
                     background: darkMode ? ' #262626' : '#fff',
                     color: darkMode ? 'white' : 'black',
                     border: darkMode ? '1px solid #474646' : '1px solid grey',
+                    width:window.innerWidth<=768 && "200px"
                 }}>
                 <button className="flexPro" onClick={() => {
                     closeDropdown();

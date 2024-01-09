@@ -18,10 +18,8 @@ function Signup({closeModal}) {
       const config = {
         headers: {
           projectId: "g4hvu8o4jh5h"
-        }
-
-        
-      };
+        }     
+   };
 
       const res = await axios.post(
         "https://academics.newtonschool.co/api/v1/user/signup",
@@ -34,7 +32,6 @@ function Signup({closeModal}) {
         sessionStorage.setItem("userName", JSON.stringify(res.data.data.user.name));
         sessionStorage.setItem("userEmail", JSON.stringify(res.data.data.user.email));
               navigate("/");
-              window.location.reload(true);
       }
     } catch (err) {
       console.error("Error:", err);
@@ -65,7 +62,7 @@ function Signup({closeModal}) {
 
   return (
     <div className="modal-container">
-      <div className="Signup-container">
+      <div className="Signup-container" style={{width:window.innerWidth<=768 && "85%"}}>
       <button className="close" onClick={() => closeModal(false)}>
               X
             </button>

@@ -1,38 +1,49 @@
 import React from "react";
 import "../styles/App.css";
-import RouterForHeader from "./RouterForHeader";
-import { useDispatch, useSelector } from "react-redux";
-import { login, logout, selectUser } from "../components/utils/UserSlice";
-import { useEffect } from "react";
-import { auth } from "../components/utils/Firebase";
-import Userlogin from "../components/Auth/Userlogin";
+import Navbar from "./Navbar/Navbar";
+import Home from "./Home/Home";
+import Answer from "./Answer/Answer";
+import Follow from "./Follow/Follow";
+import Space from "./Space/Space";
+import Notifications from "./Notifications/Notifications";
+import DarkModeProvider from "./utils/DarkModeContext";
+import DisplaySearch from "./Search/DisplaySearch";
+import FindQuestion from "./Search/FindQuestion";
+import SingleSpace from "./Space/SingleSpace";
+import { Route, Routes } from "react-router-dom";
+import Login from "./Auth/Login";
+import AuthProvider from "./Auth/AuthProvider";
+import Settings from "../Profile/Settings";
+import AuthNavigator from "./Navbar/AuthNavigator";
+import ResponsiveNav from "./Navbar/ResponsiveNav";
+
 
 function App() {
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-  const token = sessionStorage.getItem("userToken");
-
-  useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        dispatch(
-          login({
-            username: authUser.displayName,
-            photo: authUser.photoURL,
-            uid: authUser.uid,
-          })
-        );
-        console.log(authUser);
-        sessionStorage.setItem("userToken",authUser.accessToken );
-      } else {
-        dispatch(logout());
-      }
-    });
-  }, [dispatch]);
 
   return (
     <div className="App">
-      {user || token ? <RouterForHeader /> : <Userlogin />}
+      <AuthProvider>
+      <DarkModeProvider>
+          <div>
+            {window.innerWidth > 768 && (<Navbar />)}
+            {window.innerWidth<=768 && <ResponsiveNav/>}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/answer" element={<Answer />} />
+              <Route path="/following" element={<Follow />} />
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/space" element={<Space />} />
+              <Route path="/space/:id" element={<SingleSpace/>}/>
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/search/add" element={<DisplaySearch />} />
+              <Route path="/search/:id" element={<FindQuestion/>}/>  
+              <Route path="/settings" element={<AuthNavigator><Settings/></AuthNavigator>}/> 
+              <Route path="*" element={<h2>Page not found!!!!</h2>} /> 
+            </Routes>
+            
+          </div>
+        </DarkModeProvider>
+        </AuthProvider>
     </div>
   );
 }

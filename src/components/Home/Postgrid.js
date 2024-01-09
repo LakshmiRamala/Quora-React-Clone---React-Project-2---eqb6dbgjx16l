@@ -5,6 +5,8 @@ import Comment from "./Comment";
 import Like from "./Like";
 import PostEdit from "./PostEdit";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function Postgrid() {
   const { darkMode } = useContext(DarkModeContext);
@@ -14,8 +16,9 @@ export default function Postgrid() {
   const [followList, setFollowList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [comment, setComment] = useState([]);
-  const user=JSON.parse(sessionStorage.getItem("user"));
-
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const storedFollowList = JSON.parse(localStorage.getItem(`${user}_followList`)) || [];
@@ -86,10 +89,14 @@ export default function Postgrid() {
 
 
   const handleFollow = (index) => {
-    const updatedFollowList = [...followList];
-    updatedFollowList[index] = !updatedFollowList[index];
-    setFollowList(updatedFollowList);
-    localStorage.setItem(`${user}_followList`, JSON.stringify(updatedFollowList));
+    if (isLoggedIn) {
+      const updatedFollowList = [...followList];
+      updatedFollowList[index] = !updatedFollowList[index];
+      setFollowList(updatedFollowList);
+      localStorage.setItem(`${user}_followList`, JSON.stringify(updatedFollowList));
+    } else {
+      navigate("/login");
+    }
   };
 
 
@@ -100,10 +107,8 @@ export default function Postgrid() {
     localStorage.setItem(`${user}_comment`, JSON.stringify(updatedComment));
   };
 
-
-
   return (
-    <div className="postContainer">
+    <div className="postContainer" style={{ width: window.innerWidth <= 768 && "92%" }}>
       {postlist.map((post, index) => (
         <div style={{
           background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",
@@ -111,7 +116,7 @@ export default function Postgrid() {
           <section >
             <div className="autorContainer">
               {post.author && post.author.profileImage ? (
-                <img src={post.author.profileImage} alt={post.author.name} className="authorImage" />):( <><AccountCircleIcon sx={{ fontSize: 50 }}/></>)}
+                <img src={post.author.profileImage} alt={post.author.name} className="authorImage" />) : (<><AccountCircleIcon sx={{ fontSize: 50 }} /></>)}
               <section>
                 <span style={{ color: darkMode ? "white" : "black", fontWeight: 800, }} >
                   {post.author.name}
@@ -129,7 +134,11 @@ export default function Postgrid() {
                 </span>
               </section>
             </div>
+
             <h3 style={{ color: darkMode ? "white" : "black" }} className="questionHeading">{post.title}</h3>
+            {post.images && post.images.map((imageURL, imageIndex) => (
+              <img key={imageIndex} src={imageURL} alt={`Image ${imageIndex}`} style={{ padding: "5%" }} width="90%" />
+            ))}
             <p style={{ color: darkMode ? "#cacbcb" : "black" }}>{post.content}</p>
             <div style={{ display: "flex", position: "relative" }}>
               <div style={{ display: "flex" }}>
@@ -159,14 +168,11 @@ export default function Postgrid() {
                 <PostEdit key={post._id} postDetails={post} />
               </section>
             </div>
-
           </section>
-          {comment[index] && <Comment key={post._id} post={post}/>}
-
+          {comment[index] && <Comment key={post._id} post={post} />}
         </div>
       ))}
-      {loading && <div className="autorContainer" style={{color: darkMode ? "#8e8f8f" : "black"}}>Loading...</div>}
-
+      {loading && <div className="autorContainer" style={{ color: darkMode ? "#8e8f8f" : "black" }}>Loading...</div>}
     </div>
   );
 }

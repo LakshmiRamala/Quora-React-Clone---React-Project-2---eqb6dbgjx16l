@@ -2,6 +2,8 @@ import React, { useContext, useRef, useState } from "react";
 import "../Auth/Login.css";
 import axios from "axios";
 import { DarkModeContext } from "../utils/DarkModeContext";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function Newspace({ closeModal }) {
     const { darkMode } = useContext(DarkModeContext);
@@ -9,8 +11,11 @@ export default function Newspace({ closeModal }) {
     const contentRef = useRef();
     const nameRef = useRef();
     const [createdSpace, setCreatedSpace] = useState([]);
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth();
 
     const createSpace = async (space) => {
+        if(isLoggedIn){
         try {
             const token = sessionStorage.getItem("userToken");
             const config = {
@@ -31,10 +36,15 @@ export default function Newspace({ closeModal }) {
             setCreatedSpace(res.data.data);
             console.log("space",res);
             alert("Your space was created successfully!!!");
+            navigate("/space");
+            window.location.reload();
         } catch (err) {
             console.error("Error:", err);
             alert("Please change the name. It already exists!");
         }
+    }else{
+        navigate("/login");
+    }
     };
 
     const handleSubmit = async (e) => {
@@ -50,7 +60,7 @@ export default function Newspace({ closeModal }) {
 
     return (
         <div className="modal-container" style={{ color: darkMode ? '#d5d6d6' : 'black', border: darkMode ? '1px solid #474646' : '1px solid grey' }}>
-            <div className="Signup-container" style={{ height: "70%", width: "45%", background: darkMode ? "black" : '#fff', position: "relative" }}>
+            <div className="Signup-container" style={{ height: "70%", width:window.innerWidth>768 ? "45%":"70%", background: darkMode ? "black" : '#fff', position: "relative" }}>
                 <button className="close" onClick={() => closeModal(false)} style={{ background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black' }}>
                     X
                 </button>

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import axios from "axios";
 import spaceImage from "../../Assets/spaceimage.webp";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function SingleSpace() {
   const { darkMode } = useContext(DarkModeContext);
@@ -10,17 +11,30 @@ export default function SingleSpace() {
   const { id } = useParams();
   const [followList, setFollowList] = useState({});
   const user = JSON.parse(sessionStorage.getItem("user"));
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const storedFollowList = JSON.parse(localStorage.getItem(`${user}_follow`)) || {};
     setFollowList(storedFollowList);
   }, [user]);
 
-  const handleFollow = (postId) => {
-    const updatedFollowList = { ...followList };
-    updatedFollowList[postId] = !updatedFollowList[postId];
-    setFollowList(updatedFollowList);
-    localStorage.setItem(`${user}_follow`, JSON.stringify(updatedFollowList));
+  const handleFollow = (post) => {
+    if (isLoggedIn) {
+      const updatedFollowList = { ...followList };
+      if (updatedFollowList[post._id]) {
+        delete updatedFollowList[post._id]; 
+      } else {
+        updatedFollowList[post._id] = true; 
+      }
+      setFollowList(updatedFollowList);
+      const action = updatedFollowList[post._id] ? "followed" : "unfollowed";
+      alert(`You ${action} ${post.name}`);
+
+      localStorage.setItem(`${user}_follow`, JSON.stringify(updatedFollowList));
+    } else {
+      navigate("/login", { state: { prevPath: `/space/${id}` } });
+    }
   };
 
   const getSpace = async () => {
@@ -28,7 +42,6 @@ export default function SingleSpace() {
       const token = sessionStorage.getItem("userToken");
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
           projectId: "g4hvu8o4jh5h",
         },
       };
@@ -39,7 +52,6 @@ export default function SingleSpace() {
       setSpace(res.data.data);
     } catch (err) {
       console.error("Error fetching space:", err);
-      // Handle the error, such as displaying an error message or redirecting
     }
   };
 
@@ -48,7 +60,7 @@ export default function SingleSpace() {
   }, [id]);
 
   return (
-    <section style={{ color: darkMode ? 'white' : 'black' }}>
+    <section style={{ color: darkMode ? "white" : "black" }}>
       <div className="channel-container">
         {space && (
           <div className="imageSpace">
@@ -59,7 +71,7 @@ export default function SingleSpace() {
             </div>
             <button
               id={followList[space._id] ? "space-following" : "space-follow"}
-              onClick={() => handleFollow(space._id)}
+              onClick={() => handleFollow(space)}
             >
               {followList[space._id] ? "Unfollow" : "Follow"}
             </button>
@@ -105,3 +117,4 @@ export default function SingleSpace() {
     </section>
   );
 }
+

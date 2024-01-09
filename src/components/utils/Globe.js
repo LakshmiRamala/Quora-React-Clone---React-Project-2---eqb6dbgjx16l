@@ -29,6 +29,8 @@ export default function CustomDropdown() {
                         background: darkMode ? ' #262626' : '#fff',
                         color: darkMode ? 'white' : 'black',
                         border: darkMode ? '1px solid #474646' : '1px solid grey',
+                        cursor:"not-allowed",
+                       paddingRight:window.innerWidth<=768 && "100px"
                     }}>
                     <div>
                         <p style={{ borderBottom: darkMode ? '1px solid #474646' : '1px solid grey',padding:"1% 6%"}}>Languages</p>
