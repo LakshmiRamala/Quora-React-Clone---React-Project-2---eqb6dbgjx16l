@@ -79,7 +79,8 @@ export default function Searchbar() {
                     style={{
                         background: darkMode ? '#262626' : '#fff',
                         color: darkMode ? 'white' : 'black',
-                        paddingLeft: "30px",border:"none"
+                        paddingLeft: "30px",border:"none",
+                        border: darkMode ? '1px solid #474646' : '1px solid grey',
                     }}
                 />
             </div>)}
