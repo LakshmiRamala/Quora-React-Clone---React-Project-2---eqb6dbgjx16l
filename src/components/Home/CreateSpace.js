@@ -10,10 +10,12 @@ import smartphones from "../../Assets/smartphones.jpg";
 import technology from "../../Assets/technology.jpg";
 import Newspace from "../Space/Newspace";
 import images from "../../Assets/images.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateSpace() {
   const { darkMode } = useContext(DarkModeContext);
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate=useNavigate();
   const openModal = () => {
     setModalOpen(true);
   };
@@ -24,6 +26,9 @@ export default function CreateSpace() {
   
 
   const userId = JSON.parse(sessionStorage.getItem("user"));
+  const handleNavigate = (postId) => {
+    navigate(`/space/${postId}`);
+};
 
   return (
     <div className="createspaceContainer" style={{ color: darkMode ? '#d5d6d6' : 'black' }}>
@@ -40,7 +45,7 @@ export default function CreateSpace() {
             if (post.owner === userId) {
               return (
                 <span key={index} className="flexPro" style={{ gap: "10px" }}>
-                 <img src={images} alt="image" width="30px"/><p>{post.name}</p>
+                 <img src={images} alt="image" width="30px" onClick={() => handleNavigate(post._id)} style={{cursor:"pointer"}}/><p>{post.name}</p>
                 </span>
               );
             }

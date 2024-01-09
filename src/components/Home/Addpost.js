@@ -1,16 +1,14 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import "../Auth/Login.css";
-import { useState } from "react";
 import axios from "axios";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
 
 export default function Addpost({ closeModal, selecttype }) {
-
-    const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
+    const { darkMode } = useContext(DarkModeContext);
     const [loading, setLoading] = useState(false);
     const [openquestion, setOpenquestion] = useState(selecttype);
     const [createpost, setCreatepost] = useState(!selecttype);
@@ -18,47 +16,45 @@ export default function Addpost({ closeModal, selecttype }) {
     const contentRef = useRef();
     const [selectedImage, setSelectedImage] = useState(null);
     const fileInputRef = useRef(null);
-    const name = JSON.parse(sessionStorage.getItem("userName"));
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
-    const params = useParams();
-  const { isLoggedIn } = useAuth();
+
     const createPost = async (post) => {
         setLoading(true);
         if (isLoggedIn) {
-        try {
-            const token = sessionStorage.getItem("userToken");
-            const formData = new FormData();
-            formData.append('title', post.title);
-            if (post.content) {
-                formData.append('content', post.content);
+            try {
+                const token = sessionStorage.getItem("userToken");
+                const formData = new FormData();
+                formData.append('title', post.title);
+                if (post.content) {
+                    formData.append('content', post.content);
+                }
+                if (selectedImage) {
+                    formData.append(`images`, selectedImage);
+                }
+                formData.append('appType', 'quora');
+                const config = {
+                    headers: {
+                        projectId: "g4hvu8o4jh5h",
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                };
+                const res = await axios.post(
+                    "https://academics.newtonschool.co/api/v1/quora/post/",
+                    formData,
+                    config
+                );
+                navigate("/");
+                window.location.reload();
+            } catch (err) {
+                console.error("Error:", err);
+            } finally {
+                setLoading(false);
             }
-            if (selectedImage) {
-                formData.append('images', selectedImage);
-            }
-            formData.append('appType', 'quora');
-            const config = {
-                headers: {
-                    projectId: "g4hvu8o4jh5h",
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            };
-            const res = await axios.post(
-                "https://academics.newtonschool.co/api/v1/quora/post/",
-                formData,
-                config
-            );
-
-            navigate("/")
-            window.location.reload(true);
-        } catch (err) {
-            console.error("Error:", err);
-        } finally {
-            setLoading(false);
+        } else {
+            navigate("/login");
         }
-    }else{
-        navigate("/login");
-    }
     };
 
     const handleSubmit = async (e) => {
@@ -75,7 +71,6 @@ export default function Addpost({ closeModal, selecttype }) {
         sessionStorage.setItem("postDetails", JSON.stringify(postDetails));
         await createPost(postDetails);
         closeModal(true);
-
     };
 
 
