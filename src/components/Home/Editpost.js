@@ -9,13 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
 
 export default function Addpost({closeModal,postDetails}) {
+    console.log(postDetails,"postdetails");
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
     const [loading, setLoading] = useState(false);
     const [openquestion, setOpenquestion] = useState(false);
     const [createpost, setCreatepost] = useState(true);
     const  [title,setTitle]=useState(postDetails.title);
     const [content,setContent] = useState(postDetails.content||"");
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(postDetails.images[0]||nll);
     const [fileimage,setfileimage]= useState(null);
     const name = JSON.parse(sessionStorage.getItem("userName"));
     const fileInputRef = useRef(null);
@@ -30,9 +31,10 @@ export default function Addpost({closeModal,postDetails}) {
             const formData = new FormData();
             formData.append('title', post.title);
             formData.append('content', post.content);
-            if(selectedImage){
-                formData.append('images', selectedImage);
+            if (selectedImage instanceof File) {
+                formData.append('images', selectedImage, selectedImage.name);
             }
+            console.log(formData.entries());
             
             const config = {
                 headers: {
@@ -80,13 +82,11 @@ export default function Addpost({closeModal,postDetails}) {
     const handleImageChange = (event) => {
         const imageFile = event.target.files[0];
         if (imageFile) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setSelectedImage(reader.result);
-            };
-            reader.readAsDataURL(imageFile);
+            setSelectedImage(URL.createObjectURL(imageFile));
+            setfileimage(imageFile); // Optionally, set the image file in state if needed elsewhere
         }
     };
+    
     const handleIconClick = () => {
         fileInputRef.current.click();
     };
@@ -153,7 +153,7 @@ export default function Addpost({closeModal,postDetails}) {
                             value={content}
                           
                         />
-                        {selectedImage && <div className="flexPro" ><img src={selectedImage} alt="Selected" width="300px" height="260px" style={{ position: "relative" }} /> <button className="closeImage" onClick={() => setSelectedImage(null)} style={{
+                        {selectedImage && <div className="flexPro" ><img src={(selectedImage)} alt="Selected" width="300px" height="260px" style={{ position: "relative" }} /> <button className="closeImage" onClick={() => setSelectedImage(null)} style={{
                             background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black',
                         }}>
                             X
@@ -175,7 +175,6 @@ export default function Addpost({closeModal,postDetails}) {
                             accept="image/*"
                             onChange={handleImageChange}
                             style={{ display: 'none' }}
-                            value={fileimage}
                             ref={fileInputRef}
                         />
                         <label htmlFor="fileInput" onClick={handleIconClick}>

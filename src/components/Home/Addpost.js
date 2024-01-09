@@ -24,13 +24,14 @@ export default function Addpost({ closeModal, selecttype }) {
         if (isLoggedIn) {
             try {
                 const token = sessionStorage.getItem("userToken");
+
                 const formData = new FormData();
                 formData.append('title', post.title);
                 if (post.content) {
                     formData.append('content', post.content);
                 }
-                if (selectedImage) {
-                    formData.append(`images`, selectedImage);
+                if (selectedImage instanceof File) {
+                    formData.append('images', selectedImage, selectedImage.name);
                 }
                 formData.append('appType', 'quora');
                 const config = {
@@ -85,13 +86,10 @@ export default function Addpost({ closeModal, selecttype }) {
     const handleImageChange = (event) => {
         const imageFile = event.target.files[0];
         if (imageFile) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setSelectedImage(reader.result);
-            };
-            reader.readAsDataURL(imageFile);
+            setSelectedImage(imageFile);
         }
     };
+    
     const handleIconClick = () => {
         fileInputRef.current.click(); 
     };
@@ -156,7 +154,7 @@ export default function Addpost({ closeModal, selecttype }) {
                             required
                             ref={contentRef}
                         />
-                        {selectedImage && <div className="flexPro" ><img src={selectedImage} alt="Selected" width="300px" height="260px" style={{ position: "relative" }} /> <button className="closeImage" onClick={() => setSelectedImage(null)} style={{
+                        {selectedImage && <div className="flexPro" ><img  src={URL.createObjectURL(selectedImage)} alt="Selected" width="300px" height="260px" style={{ position: "relative" }} /> <button className="closeImage" onClick={() => setSelectedImage(null)} style={{
                             background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black',
                         }}>
                             X
@@ -179,6 +177,7 @@ export default function Addpost({ closeModal, selecttype }) {
                             onChange={handleImageChange}
                             style={{ display: 'none' }}
                             ref={fileInputRef}
+                          
                         />
                         <label htmlFor="fileInput" onClick={handleIconClick}>
                             <CollectionsOutlinedIcon />
