@@ -66,7 +66,7 @@ export default function Profile() {
             background: darkMode ? '#262626' : '#fff',
             color: darkMode ? '#d5d6d6' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid lightgrey',
-            paddingRight:"80px"
+            paddingRight:window.innerWidth<=768 && "80px"
           }}>
           <section>
           <div style={{padding:"0% 3%",paddingTop:"10%",borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey', background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",}}>
