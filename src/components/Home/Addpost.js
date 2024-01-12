@@ -17,8 +17,8 @@ export default function Addpost({ closeModal, selecttype }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const fileInputRef = useRef(null);
     const { isLoggedIn } = useAuth();
-    const navigate = useNavigate();
-
+    const navigate = useNavigate(); 
+    const name=sessionStorage.getItem("userName");
     const createPost = async (post) => {
         setLoading(true);
         if (isLoggedIn) {
