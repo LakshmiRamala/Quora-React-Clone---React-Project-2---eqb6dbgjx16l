@@ -16,7 +16,7 @@ export default function Addpost({closeModal,postDetails}) {
     const [createpost, setCreatepost] = useState(true);
     const  [title,setTitle]=useState(postDetails.title);
     const [content,setContent] = useState(postDetails.content||"");
-    const [selectedImage, setSelectedImage] = useState(postDetails.images[0]||nll);
+    const [selectedImage, setSelectedImage] = useState(postDetails.images[0]||null);
     const [fileimage,setfileimage]= useState(null);
     const name = JSON.parse(sessionStorage.getItem("userName"));
     const fileInputRef = useRef(null);
