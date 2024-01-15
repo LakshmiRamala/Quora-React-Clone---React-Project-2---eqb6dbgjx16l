@@ -9,10 +9,12 @@ import { DarkModeContext } from "../utils/DarkModeContext";
 import Globe from "../utils/Globe";
 import AddquestionModel from "../Home/AddquestionModel";
 import Searchbar from "../Search/Searchbar";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function Navbar() {
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
     const currentURL = window.location.href;
+    const { isLoggedIn } = useAuth();
 
     useEffect(() => {
         const isDarkMode = JSON.parse(localStorage.getItem("darkMode"));
@@ -28,10 +30,18 @@ export default function Navbar() {
         search: false,
     };
 
+    useEffect(() => {
+        const isHome = location.pathname === "/";
+        setStates({
+            ...initialStates,
+            home: isHome,
+        });
+    }, [location.pathname]);
+
     const [states, setStates] = useState(initialStates);
 
     const handleClick = (state) => {
-        setStates({ ...initialStates, [state]: true });
+        setStates({ ...initialStates, home: false, [state]: true });
     };
 
     const resetStates = () => {
@@ -103,9 +113,9 @@ export default function Navbar() {
                 <li className="globe navlink" onClick={resetStates}>
                     <Globe />
                 </li>
-                <li onClick={resetStates}>
+              {isLoggedIn &&  <li onClick={resetStates}>
                     <AddquestionModel />
-                </li>
+                </li>}
             </ul>
         </nav>
     )

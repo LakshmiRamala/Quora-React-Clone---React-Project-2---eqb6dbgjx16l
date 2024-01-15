@@ -57,6 +57,7 @@ export default function Profile() {
   return (
     <div className="globeContainer" style={{
       color: darkMode ? "#8e8f8f" : "black",
+     
     }} >
       {!name && <AccountCircleIcon className="Profile" sx={{fontSize: 40}} style={{marginLeft:"10px"}} onClick={toggleDropdown}/>}  
      {name && <main id="ProfileIcon" onClick={toggleDropdown}>{name.charAt(0).toUpperCase()}</main>}
@@ -66,10 +67,13 @@ export default function Profile() {
             background: darkMode ? '#262626' : '#fff',
             color: darkMode ? '#d5d6d6' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid lightgrey',
-            paddingRight:window.innerWidth<=768 && "80px"
-          }}>
+            paddingRight:window.innerWidth<=768 && "80px",
+            height:isLoggedIn?"640px":"200px",
+                      }}>
           <section>
-          <div style={{padding:"0% 3%",paddingTop:"10%",borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey', background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",}}>
+         {isLoggedIn && (
+          <span>
+           <div style={{padding:"0% 3%",paddingTop:"10%",borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey', background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",}}>
             
           {!name && <AccountCircleIcon className="Profile"  sx={{fontSize: 60}}  />}  
             {name && <main id="ProfileIcon"  style={{width:"50px",height:"50px",fontSize:"24px"}} >{name.charAt(0).toUpperCase()}</main>}
@@ -85,6 +89,7 @@ export default function Profile() {
             <p className="flexside"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.743 10.757h0a1.5 1.5 0 0 1 0 2.122l-5.728 5.727-2.756.638.635-2.76 5.727-5.727a1.5 1.5 0 0 1 2.122 0Zm-3.182 1.061 2.121 2.121M9 19H5V5h13v3M8 9h7m-7 3h5.5M8 15h2.5" className="icon_svg-stroke" strokeWidth="1.5" stroke={darkMode ?"#d5d6d6" : "#666"} fill="none" strokeLinecap="round" strokeLinejoin="round"></path></svg>Drafts</p>
             <p className="flexside"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path className="icon_svg-fill_as_stroke" fillRule="evenodd" clipRule="evenodd" d="M2 12.889h2.444a6.668 6.668 0 0 1 6.667 6.667V22h1.778v-2.444a6.668 6.668 0 0 1 6.667-6.667H22V11.11h-2.444a6.668 6.668 0 0 1-6.667-6.667V2H11.11v2.444a6.668 6.668 0 0 1-6.667 6.667H2v1.778Z" fill={darkMode ?"#d5d6d6" : "#666"}></path></svg>Try Quora+</p>
           </section>
+          </span>)}
           <section  style={{fontSize:"14px",padding:"1% 3%", borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey',cursor:"pointer"}}>
             <p className="flexjust"><span>Dark Mode </span> <label className="switch">
                 <input

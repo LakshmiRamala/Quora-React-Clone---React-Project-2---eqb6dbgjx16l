@@ -30,7 +30,7 @@ export default function Addquestion() {
   }
 
   return (
-    <div className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ gap: "8px", cursor: "pointer",width:window.innerWidth<=768 && "86%" }} >
+    <div className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ gap: "8px", cursor: "pointer",width:window.innerWidth<=768 && "84%" }} >
       <section className="flexPro" style={{ gap: "12px" , background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",}} onClick={openModal}>
       {!name && <AccountCircleIcon className="Profile" sx={{fontSize: 40}} />} 
         {name && <main id="ProfileIcon" style={{ width: "40px", height: "40px" }}>{name.charAt(0).toUpperCase()}</main>}

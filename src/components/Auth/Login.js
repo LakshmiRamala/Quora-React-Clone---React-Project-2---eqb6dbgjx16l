@@ -68,17 +68,17 @@ function Login() {
     document.title = "Quora | Login";
   }, []);
   return (
-    <div className="login-container" >
-      <div className="login-content" style={{width:window.innerWidth<=768 && "90%"}}>
+    <div className="login-container">
+      <div className="login-content" style={{width:window.innerWidth<=768 && "90%",marginTop:window.innerWidth<=768 && "20%"}}>
       <form onSubmit={handleSubmit}>
-        <div className="quoteByQuara">
+        <div className="quoteByQuara" style={{display:window.innerWidth<=768&& "flex",flexDirection:window.innerWidth<=768 && "column",alignItems:window.innerWidth<=768 && "center"}}>
           <img
             src="https://s.yimg.com/fz/api/res/1.2/zQmgKfpsyGj3OLKEANNyzw--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTI0MDtxPTgwO3c9MzMy/https://s.yimg.com/zb/imgv1/7a7935de-98b7-3619-86a4-123e8c442ac7/t_500x300"
             alt="logo"
           />
           <h4>A place to share knowledge and better understand the world</h4>
         </div>
-        <div className="loginOptions">
+        <div className="loginOptions" style={{display:window.innerWidth<=768&& "flex",flexDirection:window.innerWidth<=768 && "column"}}>
           <div className="terms_policy">
             <p style={{fontSize:"15px",cursor:"not-allowed"}}>
               By continuing you indicate that you agree to Quora's <span style={{color:"blue"}}>Terms of

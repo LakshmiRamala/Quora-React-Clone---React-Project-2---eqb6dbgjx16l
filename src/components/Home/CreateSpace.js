@@ -11,6 +11,7 @@ import technology from "../../Assets/technology.jpg";
 import Newspace from "../Space/Newspace";
 import images from "../../Assets/images.jpg";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
 
 export default function CreateSpace() {
   const { darkMode } = useContext(DarkModeContext);
@@ -19,6 +20,7 @@ export default function CreateSpace() {
   const openModal = () => {
     setModalOpen(true);
   };
+  const { isLoggedIn } = useAuth();
   const storedSpace = localStorage.getItem("createatespace");
   const initialSpace = storedSpace ? JSON.parse(storedSpace) : [];
 
@@ -32,13 +34,13 @@ export default function CreateSpace() {
 
   return (
     <div className="createspaceContainer" style={{ color: darkMode ? '#d5d6d6' : 'black' }}>
-      <button
+      {isLoggedIn && <button
         className="createspacebtn"
         style={{ backgroundColor: darkMode ? "#1b1b1b" : "#eceded", color: darkMode ? '#acaeb1' : 'black' }}
         onClick={openModal}
       >
         <span style={{ backgroundColor: darkMode ? "#262626" : "#eceded" }}>+ </span> Create Space
-      </button>
+      </button>}
       <section className="catogory" style={{ color: darkMode ? '#acaeb1' : 'black', borderBottom: darkMode ? "1px solid #474646" : "1px solid lightgrey" }}>
         {Array.isArray(space)  &&
           space.map((post, index) => {

@@ -48,12 +48,14 @@
     height: 20%;
     border-top-right-radius: 12px;
     border-top-left-radius: 12px;
+    margin-bottom: 20%;
 }
 .imageContainer{
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 7%;
+ 
 
 }
 .channel-container {

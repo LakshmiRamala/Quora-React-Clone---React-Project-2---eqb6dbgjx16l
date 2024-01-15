@@ -7,6 +7,8 @@ import "./Space.css"
 import Newspace from "./Newspace";
 import images from "../../Assets/images.jpg";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Auth/AuthProvider";
+import Author from "../../Assets/author.webp";
 
 export default function Space() {
     const userId = JSON.parse(sessionStorage.getItem("user"));
@@ -16,7 +18,7 @@ export default function Space() {
     const [show, setShow] = useState(true);
     const spaceContainerRef = useRef(null);
     const navigate = useNavigate();
-
+    const { isLoggedIn } = useAuth();
     const openModal = () => {
         setModalOpen(true);
     };
@@ -65,8 +67,8 @@ export default function Space() {
     return (
         <div style={{ display: "flex", justifyContent: "center", marginLeft: window.innerWidth > 768 ? "15%" : "3%", position: "relative", }}>
             <div style={{ flexDirection: "column", width: "100%", marginTop: window.innerWidth > 768 ? "5%" : "120px" }}>
-                <section className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ color: darkMode ? "#d1d6d6" : "black", height: "auto", width: window.innerWidth <= 768 && "80%" }} id="spaceimage">
-                    <section>
+            { isLoggedIn &&  <section className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ color: darkMode ? "#d1d6d6" : "black", height: "auto", width: window.innerWidth <= 768 && "80%" }} id="spaceimage">
+                  <section>
                         <h3>Welcome to Spaces!</h3>
                         <span>Follow Spaces to explore your interests on Quora.</span>
                         <section className="flexPro" style={{ justifyContent: "flex-start" }}>
@@ -91,7 +93,7 @@ export default function Space() {
                             }
                             return null;
                         })}
-                </section>
+                </section>}
                 <section style={{ color: darkMode ? "#d1d6d6" : "black" }} ref={spaceContainerRef}>
                     <h1>Discover Spaces</h1>
                     <p>Spaces you might like</p>
@@ -102,7 +104,8 @@ export default function Space() {
                                 <div key={index} style={{ background: darkMode ? "#262626" : "#fff", border: darkMode ? "1px solid #474646" : "1px solid lightgrey" }} className="space-grid" onClick={() => handleNavigate(post._id)}>
                                     <section className="imagebackground"  >
                                         <div className="imageContainer">
-                                            <img src={post.image} alt={post.name} className="space-image" />
+                                        {!post.image && <img src={Author} alt="author" className="space-image" />}
+                                           {post.image && <img src={post.image} alt={post.name} className="space-image" />}
                                         </div>
                                     </section>
                                     <h4>{post.name}</h4>
@@ -112,7 +115,7 @@ export default function Space() {
                     </div>}
                 </section>
             </div>
-            {window.innerWidth > 768 && <section className="advertisementContainer invitesection" style={{ background: darkMode ? "#262626" : "#fff", color: darkMode ? "#b0b2b5" : "#848485", position: "relative", marginTop: "7%" }}>
+            {window.innerWidth > 768 && isLoggedIn && <section className="advertisementContainer invitesection" style={{ background: darkMode ? "#262626" : "#fff", color: darkMode ? "#b0b2b5" : "#848485", position: "relative", marginTop: "7%" }}>
                 <h4 style={{ borderBottom: darkMode ? "1px solid #474646" : "1px solid lightgrey" }}>Pending Invites</h4>
                 <div className="flexPro" style={{ flexDirection: "column" }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

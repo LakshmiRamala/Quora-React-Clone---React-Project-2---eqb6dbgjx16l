@@ -13,36 +13,35 @@ export default function Like({ post }) {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
 
-
   useEffect(() => {
     const storedLikedList = JSON.parse(localStorage.getItem(`${name}`)) || [];
     setLikedPosts(storedLikedList);
     const storedDislikeList = JSON.parse(localStorage.getItem(`${name}dislike`)) || [];
     setDislikedPosts(storedDislikeList);
-  }, [name]);
+  }, [name, likeCount]);
 
   const likeThePost = async () => {
-    if(isLoggedIn){
-    const token = sessionStorage.getItem("userToken");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        projectID: "g4hvu8o4jh5h",
-      },
-    };
-    try {
-      await axios.post(
-        `https://academics.newtonschool.co/api/v1/quora/like/${post._id}`,
-        null,
-        config
-      );
-      window.location.reload();
-      dispatch({ type: actionTypes.RERENDER });
-      setLikedPosts([...likedPosts, post._id]);
-      localStorage.setItem(`${name}`, JSON.stringify([...likedPosts, post._id]));
-    } catch (err) {
-      console.log(`Error:`, err);
-    }}else{
+    if (isLoggedIn) {
+      const token = sessionStorage.getItem("userToken");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          projectID: "g4hvu8o4jh5h",
+        },
+      };
+      try {
+        await axios.post(
+          `https://academics.newtonschool.co/api/v1/quora/like/${post._id}`,
+          null,
+          config
+        );
+        setLikeCount(likeCount + 1);
+        setLikedPosts([...likedPosts, post._id]);
+        localStorage.setItem(`${name}`, JSON.stringify([...likedPosts, post._id]));
+      } catch (err) {
+        console.log(`Error:`, err);
+      }
+    } else {
       navigate("/login");
     }
   };
@@ -60,6 +59,7 @@ export default function Like({ post }) {
         `https://academics.newtonschool.co/api/v1/quora/like/${post._id}`,
         config
       );
+      setLikeCount(likeCount - 1);
       const updatedLikedPosts = likedPosts.filter((id) => id !== post._id);
       setLikedPosts(updatedLikedPosts);
       localStorage.setItem(`${name}`, JSON.stringify(updatedLikedPosts));
@@ -68,19 +68,14 @@ export default function Like({ post }) {
         setDislikedPosts(updatedDislikedPosts);
         localStorage.setItem(`${name}dislike`, JSON.stringify(updatedDislikedPosts));
       }
-      
-      
-      window.location.reload();
     } catch (err) {
       console.log(`Error:`, err);
     }
   };
-const handleLike = async () => {
+
+  const handleLike = async () => {
     if (likedPosts.includes(post._id)) {
       dislikePost();
-      const updatedLikedPosts = likedPosts.filter((id) => id !== post._id);
-      setLikedPosts(updatedLikedPosts);
-      localStorage.setItem(`${name}`, JSON.stringify(updatedLikedPosts));
     } else {
       likeThePost();
       if (dislikedPosts.includes(post._id)) {
@@ -88,21 +83,19 @@ const handleLike = async () => {
         setDislikedPosts(updatedDislikedPosts);
         localStorage.setItem(`${name}dislike`, JSON.stringify(updatedDislikedPosts));
       }
-      setLikedPosts([...likedPosts, post._id]);
-      localStorage.setItem(`${name}`, JSON.stringify([...likedPosts, post._id]));
     }
   };
 
   const handleDislike = async () => {
     if (dislikedPosts.includes(post._id)) {
       dislikePost();
-      const updatedDislikedPosts = dislikedPosts.filter((id) => id !== post._id);
-      setDislikedPosts(updatedDislikedPosts);
-      localStorage.setItem(`${name}dislike`, JSON.stringify(updatedDislikedPosts));
     } else {
-      dislikePost();
+      dislikePost(true);
       setDislikedPosts([...dislikedPosts, post._id]);
-      localStorage.setItem(`${name}dislike`, JSON.stringify([...dislikedPosts, post._id]));
+      localStorage.setItem(
+        `${name}dislike`,
+        JSON.stringify([...dislikedPosts, post._id])
+      );
     }
   };
 
@@ -145,17 +138,19 @@ const handleLike = async () => {
         }}
         onClick={handleDislike}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="m12 20 9-11h-6V4H9v5H3z"
-            className="icon_svg-stroke icon_svg-fill"
-            stroke={dislikedPosts.includes(post._id) ? "red" : darkMode ? "#b0b2b5" : "#666"}
-            fill={dislikedPosts.includes(post._id) ? "red" : "none"}
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-          ></path>
-        </svg>
-      </button>
-    </div>
-  );
+        <svg width="24"
+height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path
+d="m12 20 9-11h-6V4H9v5H3z"
+className="icon_svg-stroke icon_svg-fill"
+stroke={dislikedPosts.includes(post._id) ? "red" : darkMode ? "#b0b2b5" : "#666"}
+fill={dislikedPosts.includes(post._id) ? "red" : "none"}
+strokeWidth="1.5"
+strokeLinejoin="round"
+></path>
+</svg>
+</button>
+</div>
+);
 }
+

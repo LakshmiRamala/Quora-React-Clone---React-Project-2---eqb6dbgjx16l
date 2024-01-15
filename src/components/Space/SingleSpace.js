@@ -4,6 +4,8 @@ import { DarkModeContext } from "../utils/DarkModeContext";
 import axios from "axios";
 import spaceImage from "../../Assets/spaceimage.webp";
 import { useAuth } from "../Auth/AuthProvider";
+import Author from "../../Assets/author.webp";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function SingleSpace() {
   const { darkMode } = useContext(DarkModeContext);
@@ -66,7 +68,8 @@ export default function SingleSpace() {
           <div className="imageSpace">
             <img src={spaceImage} alt="space" />
             <div className="authorimagespace">
-              <img src={space.image} alt={space.name} />
+             {space.image &&  <img src={space.image} alt={space.name} style={{width:window.innerWidth<=768 && "120px"}}/>}
+             {!space.image && <img src={Author} alt="author" style={{width:window.innerWidth<=768 && "120px"}}/> }
               <h1 id="space-name">{space.name}</h1>
             </div>
             <button
@@ -95,7 +98,11 @@ export default function SingleSpace() {
                     alt={space.owner.name}
                     className="authorImage"
                   />
-                )}
+                  )}
+                  {
+                    !space.owner.profileImage && <AccountCircleIcon sx={{ fontSize: 60 }} />
+                  }
+             
                 <section>
                   <span style={{ color: darkMode ? "white" : "black", fontWeight: 800 }}>
                     {space.owner?.name}

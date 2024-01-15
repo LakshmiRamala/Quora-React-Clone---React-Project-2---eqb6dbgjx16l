@@ -30,11 +30,11 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/answer" element={<Answer />} />
-              <Route path="/following" element={<Follow />} />
+              <Route path="/following" element={<AuthNavigator><Follow /></AuthNavigator>} />
               <Route path="/login" element={<Login/>}/>
               <Route path="/space" element={<Space />} />
               <Route path="/space/:id" element={<SingleSpace/>}/>
-              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/notifications" element={<AuthNavigator><Notifications /></AuthNavigator>} />
               <Route path="/search/add" element={<DisplaySearch />} />
               <Route path="/search/:id" element={<FindQuestion/>}/>  
               <Route path="/settings" element={<AuthNavigator><Settings/></AuthNavigator>}/> 
