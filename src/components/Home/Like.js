@@ -47,6 +47,7 @@ export default function Like({ post }) {
   };
 
   const dislikePost = async (dislikeValue) => {
+    if (isLoggedIn) {
     const token = sessionStorage.getItem("userToken");
     const config = {
       headers: {
@@ -71,6 +72,9 @@ export default function Like({ post }) {
     } catch (err) {
       console.log(`Error:`, err);
     }
+  } else {
+    navigate("/login");
+  }
   };
 
   const handleLike = async () => {
@@ -87,17 +91,22 @@ export default function Like({ post }) {
   };
 
   const handleDislike = async () => {
-    if (dislikedPosts.includes(post._id)) {
-      dislikePost();
+    if (isLoggedIn) {
+      if (dislikedPosts.includes(post._id)) {
+        dislikePost();
+      } else {
+        dislikePost(true);
+        setDislikedPosts([...dislikedPosts, post._id]);
+        localStorage.setItem(
+          `${name}dislike`,
+          JSON.stringify([...dislikedPosts, post._id])
+        );
+      }
     } else {
-      dislikePost(true);
-      setDislikedPosts([...dislikedPosts, post._id]);
-      localStorage.setItem(
-        `${name}dislike`,
-        JSON.stringify([...dislikedPosts, post._id])
-      );
+      navigate("/login");
     }
   };
+  
 
   return (
     <div style={{ display: "flex" }}>
