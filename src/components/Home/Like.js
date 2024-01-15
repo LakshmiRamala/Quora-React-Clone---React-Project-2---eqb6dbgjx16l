@@ -15,10 +15,11 @@ export default function Like({ post }) {
 
   useEffect(() => {
     const storedLikedList = JSON.parse(localStorage.getItem(`${name}`)) || [];
-    setLikedPosts(storedLikedList);
     const storedDislikeList = JSON.parse(localStorage.getItem(`${name}dislike`)) || [];
+
+    setLikedPosts(storedLikedList);
     setDislikedPosts(storedDislikeList);
-  }, [name, likeCount]);
+  }, [name]);
 
   const likeThePost = async () => {
     if (isLoggedIn) {
@@ -81,7 +82,7 @@ export default function Like({ post }) {
     if (likedPosts.includes(post._id)) {
       dislikePost();
     } else {
-      likeThePost();
+      await likeThePost();
       if (dislikedPosts.includes(post._id)) {
         const updatedDislikedPosts = dislikedPosts.filter((id) => id !== post._id);
         setDislikedPosts(updatedDislikedPosts);
@@ -95,8 +96,8 @@ export default function Like({ post }) {
       if (dislikedPosts.includes(post._id)) {
         dislikePost();
       } else {
-        dislikePost(true);
-        setDislikedPosts([...dislikedPosts, post._id]);
+        await dislikePost(true);
+        setDislikedPosts((prevDislikedPosts) => [...prevDislikedPosts, post._id]);
         localStorage.setItem(
           `${name}dislike`,
           JSON.stringify([...dislikedPosts, post._id])
