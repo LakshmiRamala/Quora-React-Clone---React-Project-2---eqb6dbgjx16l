@@ -2,12 +2,13 @@ import React, { useContext, useRef } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
 import axios from "axios";
 export default function AnswerModel({ closeModal,post}){
     const { darkMode } = useContext(DarkModeContext);
     const name = JSON.parse(sessionStorage.getItem("userName"));
+    const { pathname } = useLocation();
     const commentRef = useRef();
     const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
@@ -33,7 +34,7 @@ export default function AnswerModel({ closeModal,post}){
           console.log(`Error:`, err);
         }
       }else{
-        navigate("/login", { state: "/answer" });
+        navigate("/login", { state: { prevPath: pathname } });
       }
       };
       const handleComment = () => {
