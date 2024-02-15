@@ -83,7 +83,7 @@ export default function Addpost({closeModal,postDetails}) {
         const imageFile = event.target.files[0];
         if (imageFile) {
             setSelectedImage(URL.createObjectURL(imageFile));
-            setfileimage(imageFile); // Optionally, set the image file in state if needed elsewhere
+            setfileimage(imageFile); 
         }
     };
     

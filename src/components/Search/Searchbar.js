@@ -14,7 +14,7 @@ export default function Searchbar() {
     const [searchpost, setSearchPost] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [show, setShow] = useState(false);
-    const [click,setclick]=useState(false);
+    const [click, setclick] = useState(false);
 
     const openModal = () => {
         setModalOpen(true);
@@ -68,7 +68,7 @@ export default function Searchbar() {
 
     return (
         <section>
-           {window.innerWidth>768 && ( <div style={{ position: 'relative', width: 'fit-content' }}>
+            {window.innerWidth > 768 && (<div style={{ position: 'relative', width: 'fit-content' }}>
                 <SearchIcon style={{ position: 'absolute', left: '8px', color: "#666666", top: "20%" }} />
                 <input
                     type="text"
@@ -79,30 +79,30 @@ export default function Searchbar() {
                     style={{
                         background: darkMode ? '#262626' : '#fff',
                         color: darkMode ? 'white' : 'black',
-                        paddingLeft: "30px",border:"none",
+                        paddingLeft: "30px", border: "none",
                         border: darkMode ? '1px solid #474646' : '1px solid grey',
                     }}
                 />
             </div>)}
             {
-                window.innerWidth<=768 && (
-                    <section style={{display:"flex"}}>
-                    <div style={{position:"relative"}} className="flexjust" onClick={()=>setclick(!click)} >
-                        <SearchIcon sx={{ fontSize: 40 }} /> Search
-                    </div>
-                    {
-                        click && <input
-                        type="text"
-                        placeholder="Search Quora"
-                        ref={inputref}
-                        onChange={handleInputChange}
-                        style={{
-                            background: darkMode ? '#262626' : '#fff',
-                            color: darkMode ? 'white' : 'black',
-                            paddingLeft: "30px"
-                        }}
-                    />
-                    }                 
+                window.innerWidth <= 768 && (
+                    <section style={{ display: "flex" }}>
+                        <div style={{ position: "relative" }} className="flexjust" onClick={() => setclick(!click)} >
+                            <SearchIcon sx={{ fontSize: 40 }} /> Search
+                        </div>
+                        {
+                            click && <input
+                                type="text"
+                                placeholder="Search Quora"
+                                ref={inputref}
+                                onChange={handleInputChange}
+                                style={{
+                                    background: darkMode ? '#262626' : '#fff',
+                                    color: darkMode ? 'white' : 'black',
+                                    paddingLeft: "30px"
+                                }}
+                            />
+                        }
                     </section>
                 )
             }
@@ -110,11 +110,11 @@ export default function Searchbar() {
                 background: darkMode ? '#262626' : '#fff',
                 color: darkMode ? 'white' : 'black',
                 border: darkMode ? '1px solid #474646' : '1px solid grey',
-              width:window.innerWidth<=768 && "70%",
+                width: window.innerWidth <= 768 && "70%",
 
             }}>
                 <div>
-                    <NavLink className="questionSeach flexPro" style={{ color: darkMode ? 'white' : 'black', justifyContent: "flex-start",width:window.innerWidth<=768 && "90%" }} to={`/search/add?q=${inputref.current.value}`} onClick={()=>setclick(!click)}>
+                    <NavLink className="questionSeach flexPro" style={{ color: darkMode ? 'white' : 'black', justifyContent: "flex-start", width: window.innerWidth <= 768 && "90%" }} to={`/search/add?q=${inputref.current.value}`} onClick={() => setclick(!click)}>
                         <SearchIcon style={{ color: "#666666" }} />
                         <span style={{ color: "#666666" }}>Search:</span> {inputref.current.value}
                     </NavLink>
@@ -123,10 +123,10 @@ export default function Searchbar() {
                     <div key={index} className="result-title" style={{
                         borderBottom: darkMode ? '1px solid #474646' : '1px solid grey',
                         scrollbarColor: darkMode ? 'black black' : '#fff #262626',
-                      
+
                     }} >
-                        <NavLink className="questionSeach" style={{ color: darkMode ? 'white' : 'black' }} to={`/search/${post._id}?q=${inputref.current.value}`} onClick={() => { saveToSessionStorage(post)}}>        
-                                           {post.title}
+                        <NavLink className="questionSeach" style={{ color: darkMode ? 'white' : 'black' }} to={`/search/${post._id}?q=${inputref.current.value}`} onClick={() => { saveToSessionStorage(post) }}>
+                            {post.title}
                         </NavLink>
                     </div>
                 ))}

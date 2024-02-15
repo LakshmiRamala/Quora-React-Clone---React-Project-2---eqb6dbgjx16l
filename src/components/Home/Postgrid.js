@@ -63,6 +63,7 @@ export default function Postgrid() {
       setLoading(false);
     }
   };
+  console.log(postlist);
 
   const handleScroll = () => {
     const windowHeight = window.innerHeight;
