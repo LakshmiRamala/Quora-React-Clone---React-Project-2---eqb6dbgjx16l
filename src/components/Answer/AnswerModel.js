@@ -33,7 +33,7 @@ export default function AnswerModel({ closeModal,post}){
           console.log(`Error:`, err);
         }
       }else{
-        navigate("/login");
+        navigate("/login", { state: "/answer" });
       }
       };
       const handleComment = () => {
