@@ -95,7 +95,7 @@ export default function Addpost({closeModal,postDetails}) {
             color: darkMode ? 'white' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid grey',
         }}>
-            <div className="Signup-container" style={{ height: "70%", width: "45%", background: darkMode ? "black" : '#fff', position: "relative" }}>
+            <div className="Signup-container" style={{ height: "70%", width: "45%", background: darkMode ? "black" : '#fff', position: "relative",width:window.innerWidth<=768 && "80%" }}>
                 <button className="close" onClick={() => closeModal(false)} style={{
                     background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black',
                 }}>

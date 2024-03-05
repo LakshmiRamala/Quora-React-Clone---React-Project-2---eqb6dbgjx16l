@@ -38,7 +38,7 @@ export default function Settings() {
   };
 
   return (
-    <div style={{ color: darkMode ? "white" : "black", paddingTop:window.innerWidth>768? "5%":"120px", marginLeft: "25%", width: window.innerWidth>768 ?"40%":"60%", }}>
+    <div style={{ color: darkMode ? "white" : "black", paddingTop:window.innerWidth>768? "5%":"120px", marginLeft:window.innerWidth>768? "25%": "5%", width: window.innerWidth>768 ?"40%":"80%", }}>
       <div>
         <h3 style={{ borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey' }}>Account Settings</h3>
         <div className="flexPro" style={{ borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey', gap: "30%", height: "50px" }}>

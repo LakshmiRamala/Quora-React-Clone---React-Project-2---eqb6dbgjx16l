@@ -6,7 +6,7 @@ export default function Notifications() {
     return (
         <section style={{ display: "flex", justifyContent: "center", marginLeft: "15%", width: "70%", paddingTop: "2%", gap: "1%", position: "relative" }}>
 
-           {window.innerWidth>768 && <div style={{ marginTop: "5%", color: darkMode ? 'white' : 'black', }}>
+           {window.innerWidth>768 && <div style={{ marginTop: "5%", color: darkMode ? 'white' : 'black',cursor:"not-allowed" }}>
                 <h3 style={{ borderBottom: darkMode ? '1px solid #474646' : '1px solid grey' }}>Filters</h3>
                 <section className="sidebaradd">
                     <p style={{ backgroundColor: darkMode ? "#281918" : "#e9dcdb" }}>All Notifications</p>
