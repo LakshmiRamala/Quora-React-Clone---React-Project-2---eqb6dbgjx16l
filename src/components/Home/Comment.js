@@ -129,11 +129,10 @@ export default function Comment({ post }) {
 
             <section style={{ display: "flex", alignItems: "center" }}>
               <div style={{color: darkMode ? "#8e8f8f" : "black",}}>
-                {!name && <AccountCircleIcon className="Profile" sx={{ fontSize: 30 }} />}
-                {name && (
+                {name &&authorId === comment.author ?  (
                   <main id="ProfileIcon" style={{ width: "40px", height: "40px" }}>
                     {name.charAt(0).toUpperCase()}
-                  </main>)}
+                  </main>):( <AccountCircleIcon className="Profile" sx={{ fontSize: 30 }}/>)}
               </div>
               <p>{comment.content}</p>
             </section>
