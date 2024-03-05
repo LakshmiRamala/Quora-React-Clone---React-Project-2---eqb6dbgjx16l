@@ -139,11 +139,10 @@ export default function Comment({ post }) {
             {comment.children && comment.children.map((reply, idx) => (
               <section key={idx} style={{ marginLeft: "20%", display: "flex", alignItems: "center" }}>
                 <div style={{color: darkMode ? "#8e8f8f" : "black",}}>
-                  {!name && <AccountCircleIcon className="Profile" sx={{ fontSize: 30 }} />}
-                  {name && (
-                    <main id="ProfileIcon" style={{ width: "40px", height: "40px" }}>
-                      {name.charAt(0).toUpperCase()}
-                    </main>)}
+                {name &&authorId === comment.author ?  (
+                  <main id="ProfileIcon" style={{ width: "40px", height: "40px" }}>
+                    {name.charAt(0).toUpperCase()}
+                  </main>):( <AccountCircleIcon className="Profile" sx={{ fontSize: 30 }}/>)}
                 </div>
                 <p>{reply.content}</p>
               </section>
