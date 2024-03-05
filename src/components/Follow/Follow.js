@@ -50,7 +50,7 @@ export default function Follow() {
   return (
     <div style={{ display: "flex", justifyContent: "center", marginLeft: window.innerWidth > 768 ? "15%" : "3%", width: window.innerWidth > 768 ? "70%" : "100%", paddingTop: "2%", gap: "1%", position: "relative" }}>
       {window.innerWidth > 768 && (<CreateSpace />)}
-      <span style={{ flexDirection: "column", width: window.innerWidth > 768 ? "80%" : "80%", marginTop: window.innerWidth > 768 ? "5%" : "30%", color: darkMode ? "white" : "black" }}>
+      <span style={{ flexDirection: "column", width: window.innerWidth > 768 ? "80%" : "94%", marginTop: window.innerWidth > 768 ? "5%" : "30%", color: darkMode ? "white" : "black" }}>
         {!Object.keys(followList).length && (
           <div className="flexPro" style={{ flexDirection: "column" }}>
             <img className="q-image qu-mb--tiny" src="//qsf.fs.quoracdn.net/-4-ans_frontend_assets.images.empty_states.all_caught_up_feed_lightmode.png-26-1b95f406729630f5.png" width="30%" alt="Empty State" />
