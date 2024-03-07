@@ -158,11 +158,7 @@ export default function Postgrid() {
                     {post.commentCount}
                   </button>
                 </section>
-                <section>
-                  <button style={{
-                    background: darkMode ? "#262626" : "#fff", color: darkMode ? "#b0b2b5" : "black", border: "none", padding: "2px", marginLeft: "10px"
-                  }} className="flexPro" ><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g className="icon_svg-stroke" stroke={darkMode ? "#b0b2b5" : "#666"} strokeWidth="1.5" fill="none" fillRule="evenodd" strokeLinecap="round"><path d="M19.748 10a8.003 8.003 0 0 0-15.496.002m.001 4.003a8.003 8.003 0 0 0 15.494 0"></path><path d="m2.5 7.697 1.197 3.289 3.289-1.197m14.5 6.5L20.289 13 17 14.197"></path></g></svg></button>
-                </section>
+               
               </div>
               <section>
                 <PostEdit key={post._id} postDetails={post} />

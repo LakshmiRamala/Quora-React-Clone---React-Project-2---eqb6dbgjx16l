@@ -87,6 +87,7 @@ export default function SingleSpace() {
             style={{
               background: darkMode ? "#262626" : "#fff",
               color: darkMode ? "#8e8f8f" : "black",
+              width:window.innerWidth>768 ?"70%":"90%"
             }}
             className="spacepost"
           >
