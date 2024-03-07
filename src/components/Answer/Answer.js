@@ -3,12 +3,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import axios from "axios";
 import AnswerModel from "./AnswerModel";
+import { useMediaQuery } from 'react-responsive';
 
 export default function Answer() {
     const { darkMode } = useContext(DarkModeContext);
     const [postlist, setPostlist] = useState([]);
     const [selectedPost, setSelectedPost] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const isMobile = useMediaQuery({ maxWidth: 768 });
 
     const openModal = (post) => {
         setSelectedPost(post);
@@ -44,12 +46,12 @@ export default function Answer() {
                 display: "flex",
                 justifyContent: "center",
                 marginLeft: "8%",
-                paddingTop:window.innerWidth>768 ? "5%":"28%",
+                paddingTop:!isMobile ? "5%":"28%",
                 gap: "1%",
                 position: "relative",
-                flexDirection:window.innerWidth<=768 && "column"
+                flexDirection:isMobile && "column"
             }}>
-           {window.innerWidth>768 && (<section
+           {!isMobile && (<section
                 style={{
                     color: darkMode ? "#d5d6d6" : "black",
                     width: "10%",cursor:"not-allowed"
@@ -64,7 +66,7 @@ export default function Answer() {
                     </section>
                 </div>
             </section>)} 
-            <section  className="postContainer" style={{width:window.innerWidth<=768&&"92%" }}>
+            <section  className="postContainer" style={{width:isMobile&&"92%" }}>
                     {postlist.map((post, index) => (
                         <div style={{
                             background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",

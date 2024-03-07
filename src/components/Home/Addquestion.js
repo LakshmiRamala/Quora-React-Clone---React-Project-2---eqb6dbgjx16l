@@ -6,8 +6,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Addpost from "./Addpost";
 import Editpost from "./Editpost";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 export default function Addquestion() {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const name = JSON.parse(sessionStorage.getItem("userName"));
   const [modalOpen, setModalOpen] = useState(false);
   const [openpost, setPost] = useState(false);
@@ -30,7 +32,7 @@ export default function Addquestion() {
   }
 
   return (
-    <div className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ gap: "8px", cursor: "pointer",width:window.innerWidth<=768 && "84%" }} >
+    <div className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ gap: "8px", cursor: "pointer",width:isMobile&& "84%" }} >
       <section className="flexPro" style={{ gap: "12px" , background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",}} onClick={openModal}>
       {!name && <AccountCircleIcon className="Profile" sx={{fontSize: 40}} />} 
         {name && <main id="ProfileIcon" style={{ width: "40px", height: "40px" }}>{name.charAt(0).toUpperCase()}</main>}

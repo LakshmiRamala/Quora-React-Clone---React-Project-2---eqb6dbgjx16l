@@ -5,16 +5,18 @@ import Postgrid from "./Postgrid";
 import CreateSpace from "./CreateSpace";
 import Advertisement from "./Advertisement";
 import { useAuth } from "../Auth/AuthProvider";
+import { useMediaQuery } from "react-responsive";
 export default function Home(){
     const { isLoggedIn } = useAuth();
+    const isMobile = useMediaQuery({ maxWidth: 768 });
     return (
-        <div style={{display:"flex",justifyContent:"center",marginLeft:window.innerWidth>768?"15%":"5%",gap:"1%",position:"relative"}}>
-            {window.innerWidth>768 && ( <CreateSpace/>)}
-            <span style={{flexDirection:"column",width:"100%",marginTop:window.innerWidth>768?"5%":"130px"}}>
+        <div style={{display:"flex",justifyContent:"center",marginLeft:!isMobile?"15%":"5%",gap:"1%",position:"relative"}}>
+            {!isMobile && ( <CreateSpace/>)}
+            <span style={{flexDirection:"column",width:"100%",marginTop:!isMobile?"5%":"130px"}}>
             {isLoggedIn && <Addquestion/>}
             <Postgrid/>
             </span>
-            {window.innerWidth>768 && (<Advertisement/>   )} 
+            {!isMobile && (<Advertisement/>   )} 
         </div>
     )
 }

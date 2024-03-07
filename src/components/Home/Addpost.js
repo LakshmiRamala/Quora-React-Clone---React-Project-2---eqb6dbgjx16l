@@ -6,6 +6,7 @@ import { DarkModeContext } from "../utils/DarkModeContext";
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
+import { useMediaQuery } from "react-responsive";
 
 export default function Addpost({ closeModal, selecttype }) {
     const { darkMode } = useContext(DarkModeContext);
@@ -16,6 +17,7 @@ export default function Addpost({ closeModal, selecttype }) {
     const contentRef = useRef();
     const [selectedImage, setSelectedImage] = useState(null);
     const fileInputRef = useRef(null);
+    const isMobile = useMediaQuery({ maxWidth: 768 });
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate(); 
     const name = JSON.parse(sessionStorage.getItem("userName"));
@@ -99,7 +101,7 @@ export default function Addpost({ closeModal, selecttype }) {
             border: darkMode ? '1px solid #474646' : '1px solid grey',
           
         }}>
-            <div className="Signup-container" style={{ height: "70%", width: "45%", background: darkMode ? "black" : '#fff', position: "relative",  width:window.innerWidth<=768 && "80%", }}>
+            <div className="Signup-container" style={{ height: "70%", width: "45%", background: darkMode ? "black" : '#fff', position: "relative",  width:isMobile && "80%", }}>
                 <button className="close" onClick={() => closeModal(false)} style={{
                     background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black',
                 }}>

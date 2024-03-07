@@ -16,17 +16,18 @@ import AuthProvider from "./Auth/AuthProvider";
 import Settings from "../Profile/Settings";
 import AuthNavigator from "./Navbar/AuthNavigator";
 import ResponsiveNav from "./Navbar/ResponsiveNav";
+import { useMediaQuery } from "react-responsive";
 
 
 function App() {
-
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   return (
     <div className="App">
       <AuthProvider>
       <DarkModeProvider>
           <div>
-            {window.innerWidth > 768 && (<Navbar />)}
-            {window.innerWidth<=768 && <ResponsiveNav/>}
+            {!isMobile && (<Navbar />)}
+            {isMobile&& <ResponsiveNav/>}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/answer" element={<Answer />} />

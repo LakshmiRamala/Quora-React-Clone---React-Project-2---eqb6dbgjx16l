@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import { DarkModeContext } from "../components/utils/DarkModeContext";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 export default function Settings() {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
   const email = JSON.parse(sessionStorage.getItem("userEmail"));
   const username = JSON.parse(sessionStorage.getItem("userName"));
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const [country, setCountry] = useState(
     JSON.parse(sessionStorage.getItem("userCountry")) || ""
   );
@@ -38,7 +40,7 @@ export default function Settings() {
   };
 
   return (
-    <div style={{ color: darkMode ? "white" : "black", paddingTop:window.innerWidth>768? "5%":"120px", marginLeft:window.innerWidth>768? "25%": "5%", width: window.innerWidth>768 ?"40%":"80%", }}>
+    <div style={{ color: darkMode ? "white" : "black", paddingTop:!isMobile? "5%":"120px", marginLeft:!isMobile? "25%": "5%", width: !isMobile ?"40%":"80%", }}>
       <div>
         <h3 style={{ borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey' }}>Account Settings</h3>
         <div className="flexPro" style={{ borderBottom: darkMode ? '1px solid #474646' : '1px solid lightgrey', gap: "30%", height: "50px" }}>

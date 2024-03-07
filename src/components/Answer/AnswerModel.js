@@ -1,12 +1,13 @@
 import React, { useContext, useRef } from "react";
 import { DarkModeContext } from "../utils/DarkModeContext";
-
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
 import axios from "axios";
+import { useMediaQuery } from "react-responsive";
 export default function AnswerModel({ closeModal,post}){
     const { darkMode } = useContext(DarkModeContext);
+    const isMobile = useMediaQuery({ maxWidth: 768 });
     const name = JSON.parse(sessionStorage.getItem("userName"));
     const { pathname } = useLocation();
     const commentRef = useRef();
@@ -48,7 +49,7 @@ export default function AnswerModel({ closeModal,post}){
             color: darkMode ? 'white' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid grey',
         }}>
-            <div className="Signup-container" style={{ height: "70%", width:window.innerWidth>768 ? "45%":"80%", background: darkMode ? "black" : '#fff', position: "relative" }}>
+            <div className="Signup-container" style={{ height: "70%", width:!isMobile ? "45%":"80%", background: darkMode ? "black" : '#fff', position: "relative" }}>
                 <button className="close" onClick={() => closeModal(false)} style={{
                     background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black',
                 }}>

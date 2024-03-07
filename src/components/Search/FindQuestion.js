@@ -8,9 +8,11 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Advertisement from "../Home/Advertisement";
 import { useAuth } from "../Auth/AuthProvider";
 import AnswerModel from "../Answer/AnswerModel";
+import { useMediaQuery } from "react-responsive";
 
 
 export default function FindQuestion() {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const { id } = useParams();
   const location = useLocation();
   const { darkMode } = useContext(DarkModeContext);
@@ -85,9 +87,9 @@ export default function FindQuestion() {
   };
 
   return (
-    <section style={{ display: "flex", justifyContent: "center", marginLeft:window.innerWidth>768? "15%":"3%", gap: "1%", position: "relative" }}>
+    <section style={{ display: "flex", justifyContent: "center", marginLeft:!isMobile? "15%":"3%", gap: "1%", position: "relative" }}>
       <span style={{ flexDirection: "column", width: "100%",}}>
-        <div className="advertisementContainer" style={{ background: darkMode ? "#262626" : "#fff", height:window.innerWidth>768 ? "18%":"140px", width: "90%", padding: "2%", color: darkMode ? "white" : "black", }}>
+        <div className="advertisementContainer" style={{ background: darkMode ? "#262626" : "#fff", height:!isMobile ? "18%":"140px", width: "90%", padding: "2%", color: darkMode ? "white" : "black", }}>
           {post && index !== -1 && post.title && <h1>{post.title}</h1>}
           <div className="flexjust">
             <section>
@@ -104,7 +106,7 @@ export default function FindQuestion() {
                 </button>
               </span>
             </section>
-          {window.innerWidth>768 &&  <section >
+          {!isMobile &&  <section >
               <button className="buttonnew" style={{ background: darkMode ? '#262626' : '#fff', color: darkMode ? '#b0b2b5' : 'black' }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd"><circle className="icon_svg-fill_as_stroke" fill={darkMode ? "#b0b2b5 " : "#666"} cx="12" cy="8" r="1"></circle><path d="M12 11.5v5M12 3a9 9 0 0 1 9 9 9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9Z" className="icon_svg-stroke" stroke={darkMode ? "#b0b2b5 " : "#666"} strokeWidth="1.5" strokeLinecap="round"></path></g></svg>
               </button>
@@ -121,7 +123,7 @@ export default function FindQuestion() {
           </div>
 
         </div>
-        <div className="postContainer" style={{ width: "94%",marginTop:window.innerWidth<=768 && "50px" }}>
+        <div className="postContainer" style={{ width: "94%",marginTop:isMobile && "50px" }}>
           {post && index !== -1 && (
             <div
               style={{
@@ -191,7 +193,7 @@ export default function FindQuestion() {
         </div>
       </span>
 
-      {window.innerWidth>768 && <span style={{ marginTop: "5%", width: "100%" }}>
+      {!isMobile && <span style={{ marginTop: "5%", width: "100%" }}>
         <Advertisement />
       </span>}
     </section>

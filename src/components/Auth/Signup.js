@@ -4,10 +4,12 @@ import "./Login.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { useMediaQuery } from "react-responsive";
 
 function Signup({closeModal}) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -62,7 +64,7 @@ function Signup({closeModal}) {
 
   return (
     <div className="modal-container">
-      <div className="Signup-container" style={{width:window.innerWidth<=768 && "85%"}}>
+      <div className="Signup-container" style={{width:isMobile && "85%"}}>
       <button className="close" onClick={() => closeModal(false)}>
               X
             </button>

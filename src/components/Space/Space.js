@@ -9,8 +9,10 @@ import images from "../../Assets/images.jpg";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
 import Author from "../../Assets/author.webp";
+import { useMediaQuery } from "react-responsive";
 
 export default function Space() {
+    const isMobile = useMediaQuery({ maxWidth: 768 });
     const userId = JSON.parse(sessionStorage.getItem("user"));
     const [modalOpen, setModalOpen] = useState(false);
     const { darkMode } = useContext(DarkModeContext);
@@ -65,9 +67,9 @@ export default function Space() {
 
 
     return (
-        <div style={{ display: "flex", justifyContent: "center", marginLeft: window.innerWidth > 768 ? "15%" : "3%", position: "relative", }}>
-            <div style={{ flexDirection: "column", width: "100%", marginTop: window.innerWidth > 768 ? "5%" : "120px" }}>
-            { isLoggedIn &&  <section className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ color: darkMode ? "#d1d6d6" : "black", height: "auto", width: window.innerWidth <= 768 && "80%" }} id="spaceimage">
+        <div style={{ display: "flex", justifyContent: "center", marginLeft: !isMobile ? "15%" : "3%", position: "relative", }}>
+            <div style={{ flexDirection: "column", width: "100%", marginTop:!isMobile > 768 ? "5%" : "120px" }}>
+            { isLoggedIn &&  <section className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ color: darkMode ? "#d1d6d6" : "black", height: "auto", width: isMobile && "80%" }} id="spaceimage">
                   <section>
                         <h3>Welcome to Spaces!</h3>
                         <span>Follow Spaces to explore your interests on Quora.</span>
@@ -115,7 +117,7 @@ export default function Space() {
                     </div>}
                 </section>
             </div>
-            {window.innerWidth > 768 && isLoggedIn && <section className="advertisementContainer invitesection" style={{ background: darkMode ? "#262626" : "#fff", color: darkMode ? "#b0b2b5" : "#848485", position: "relative", marginTop: "7%" }}>
+            {!isMobile && isLoggedIn && <section className="advertisementContainer invitesection" style={{ background: darkMode ? "#262626" : "#fff", color: darkMode ? "#b0b2b5" : "#848485", position: "relative", marginTop: "7%" }}>
                 <h4 style={{ borderBottom: darkMode ? "1px solid #474646" : "1px solid lightgrey" }}>Pending Invites</h4>
                 <div className="flexPro" style={{ flexDirection: "column" }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -6,11 +6,13 @@ import spaceImage from "../../Assets/spaceimage.webp";
 import { useAuth } from "../Auth/AuthProvider";
 import Author from "../../Assets/author.webp";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useMediaQuery } from "react-responsive";
 
 export default function SingleSpace() {
   const { darkMode } = useContext(DarkModeContext);
   const [space, setSpace] = useState(null);
   const { id } = useParams();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const [followList, setFollowList] = useState({});
   const user = JSON.parse(sessionStorage.getItem("user"));
   const navigate = useNavigate();
@@ -68,8 +70,8 @@ export default function SingleSpace() {
           <div className="imageSpace">
             <img src={spaceImage} alt="space" />
             <div className="authorimagespace">
-             {space.image &&  <img src={space.image} alt={space.name} style={{width:window.innerWidth<=768 && "120px"}}/>}
-             {!space.image && <img src={Author} alt="author" style={{width:window.innerWidth<=768 && "120px"}}/> }
+             {space.image &&  <img src={space.image} alt={space.name} style={{width:isMobile && "120px"}}/>}
+             {!space.image && <img src={Author} alt="author" style={{width:isMobile && "120px"}}/> }
               <h1 id="space-name">{space.name}</h1>
             </div>
             <button
@@ -87,7 +89,7 @@ export default function SingleSpace() {
             style={{
               background: darkMode ? "#262626" : "#fff",
               color: darkMode ? "#8e8f8f" : "black",
-              width:window.innerWidth>768 ?"70%":"90%"
+              width:!isMobile ?"70%":"90%"
             }}
             className="spacepost"
           >

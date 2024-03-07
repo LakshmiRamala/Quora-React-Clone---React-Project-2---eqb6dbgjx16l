@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { useAuth } from "../components/Auth/AuthProvider";
+import { useMediaQuery } from "react-responsive";
 export default function Profile() {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const name=JSON.parse(sessionStorage.getItem("userName"));
   const { isLoggedIn } = useAuth();
   const toggleDropdown = () => {
@@ -67,7 +69,7 @@ export default function Profile() {
             background: darkMode ? '#262626' : '#fff',
             color: darkMode ? '#d5d6d6' : 'black',
             border: darkMode ? '1px solid #474646' : '1px solid lightgrey',
-            paddingRight:window.innerWidth<=768 && "80px",
+            paddingRight:isMobile&& "80px",
             height:isLoggedIn?"640px":"200px",
                       }}>
           <section>

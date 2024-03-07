@@ -3,11 +3,13 @@ import CreateSpace from "../Home/CreateSpace";
 import Addquestion from "../Home/Addquestion";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import axios from "axios";
+import { useMediaQuery } from "react-responsive";
 
 export default function Follow() {
   const { darkMode } = useContext(DarkModeContext);
   const [followList, setFollowList] = useState({});
   const [spaces, setSpaces] = useState([]);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const user = JSON.parse(sessionStorage.getItem("user"));
 
   const getSpace = async (id) => {
@@ -48,9 +50,9 @@ export default function Follow() {
   }, [followList]);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", marginLeft: window.innerWidth > 768 ? "15%" : "3%", width: window.innerWidth > 768 ? "70%" : "100%", paddingTop: "2%", gap: "1%", position: "relative" }}>
-      {window.innerWidth > 768 && (<CreateSpace />)}
-      <span style={{ flexDirection: "column", width: window.innerWidth > 768 ? "80%" : "94%", marginTop: window.innerWidth > 768 ? "5%" : "30%", color: darkMode ? "white" : "black" }}>
+    <div style={{ display: "flex", justifyContent: "center", marginLeft: !isMobile? "15%" : "3%", width: !isMobile ? "70%" : "100%", paddingTop: "2%", gap: "1%", position: "relative" }}>
+      {!isMobile && (<CreateSpace />)}
+      <span style={{ flexDirection: "column", width: !isMobile ? "80%" : "94%", marginTop: !isMobile ? "5%" : "30%", color: darkMode ? "white" : "black" }}>
         {!Object.keys(followList).length && (
           <div className="flexPro" style={{ flexDirection: "column" }}>
             <img className="q-image qu-mb--tiny" src="//qsf.fs.quoracdn.net/-4-ans_frontend_assets.images.empty_states.all_caught_up_feed_lightmode.png-26-1b95f406729630f5.png" width="30%" alt="Empty State" />
@@ -61,11 +63,11 @@ export default function Follow() {
         {Object.keys(followList).length > 0 && (
           <section style={{ flexDirection: "column", width: "100%" }}>
             <Addquestion />
-            <div className="postContainer" style={{ width: window.innerWidth <= 768 && "90%", }}>
+            <div className="postContainer" style={{ width: isMobile && "90%", }}>
               {spaces.map((space, index) => (
                 <div style={{
                   background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",
-                  width: window.innerWidth <= 768 && "100%",
+                  width: isMobile && "100%",
                 }} key={index} className="postgrid" >
                   <section>
                     <div className="autorContainer" >

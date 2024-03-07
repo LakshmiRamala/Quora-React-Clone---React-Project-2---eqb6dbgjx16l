@@ -6,6 +6,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import "./Search.css"
 import { NavLink, useNavigate } from "react-router-dom";
 import Addpost from "../Home/Addpost";
+import { useMediaQuery } from "react-responsive";
 
 export default function Searchbar() {
     const { darkMode } = useContext(DarkModeContext);
@@ -15,6 +16,7 @@ export default function Searchbar() {
     const [modalOpen, setModalOpen] = useState(false);
     const [show, setShow] = useState(false);
     const [click, setclick] = useState(false);
+    const isMobile = useMediaQuery({ maxWidth: 768 });
 
     const openModal = () => {
         setModalOpen(true);
@@ -68,7 +70,7 @@ export default function Searchbar() {
 
     return (
         <section>
-            {window.innerWidth > 768 && (<div style={{ position: 'relative', width: 'fit-content' }}>
+            {!isMobile && (<div style={{ position: 'relative', width: 'fit-content' }}>
                 <SearchIcon style={{ position: 'absolute', left: '8px', color: "#666666", top: "20%" }} />
                 <input
                     type="text"
@@ -85,7 +87,7 @@ export default function Searchbar() {
                 />
             </div>)}
             {
-                window.innerWidth <= 768 && (
+               isMobile && (
                     <section style={{ display: "flex" }}>
                         <div style={{ position: "relative" }} className="flexjust" onClick={() => setclick(!click)} >
                             <SearchIcon sx={{ fontSize: 40 }} /> Search
@@ -110,11 +112,11 @@ export default function Searchbar() {
                 background: darkMode ? '#262626' : '#fff',
                 color: darkMode ? 'white' : 'black',
                 border: darkMode ? '1px solid #474646' : '1px solid grey',
-                width: window.innerWidth <= 768 && "70%",
+                width: isMobile && "70%",
 
             }}>
                 <div>
-                    <NavLink className="questionSeach flexPro" style={{ color: darkMode ? 'white' : 'black', justifyContent: "flex-start", width: window.innerWidth <= 768 && "90%" }} to={`/search/add?q=${inputref.current.value}`} onClick={() => setclick(!click)}>
+                    <NavLink className="questionSeach flexPro" style={{ color: darkMode ? 'white' : 'black', justifyContent: "flex-start", width: isMobile && "90%" }} to={`/search/add?q=${inputref.current.value}`} onClick={() => setclick(!click)}>
                         <SearchIcon style={{ color: "#666666" }} />
                         <span style={{ color: "#666666" }}>Search:</span> {inputref.current.value}
                     </NavLink>

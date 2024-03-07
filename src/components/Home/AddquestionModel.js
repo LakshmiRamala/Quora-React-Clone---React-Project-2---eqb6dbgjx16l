@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Addpost from "./Addpost";
+import { useMediaQuery } from "react-responsive";
 export default function AddquestionModel() {
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
     const [isOpen, setIsOpen] = useState(false);
+    const isMobile = useMediaQuery({ maxWidth: 768 });
     const [modalOpen, setModalOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -22,10 +24,10 @@ export default function AddquestionModel() {
 
     return (
         <div className="globeContainer">
-            {window.innerWidth>768 && (<button id={darkMode ? "addquestionDark" : "addquestion"} >
+            {!isMobile && (<button id={darkMode ? "addquestionDark" : "addquestion"} >
                 Add question  <FontAwesomeIcon icon={faAngleDown} onClick={toggleDropdown} />
             </button>)}
-            {window.innerWidth<=768 && (<button id="resaddquestion"  className="flexPro" onClick={toggleDropdown}>
+            {isMobile&& (<button id="resaddquestion"  className="flexPro" onClick={toggleDropdown}>
                <AddCircleOutlineIcon sx={{ fontSize: 30 }}/><span style={{fontSize:"18px"}}> Add </span>
             </button>)}
             {isOpen && (<div className="addpostcard"
@@ -33,7 +35,7 @@ export default function AddquestionModel() {
                     background: darkMode ? ' #262626' : '#fff',
                     color: darkMode ? 'white' : 'black',
                     border: darkMode ? '1px solid #474646' : '1px solid grey',
-                    width:window.innerWidth<=768 && "200px"
+                    width:isMobile && "200px"
                 }}>
                 <button className="flexPro" onClick={() => {
                     closeDropdown();

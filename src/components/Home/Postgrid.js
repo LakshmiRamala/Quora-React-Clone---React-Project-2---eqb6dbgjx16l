@@ -7,10 +7,12 @@ import PostEdit from "./PostEdit";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
+import { useMediaQuery } from "react-responsive";
 
 export default function Postgrid() {
   const { darkMode } = useContext(DarkModeContext);
   const [loading, setLoading] = useState(false);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const [page, setPage] = useState(1);
   const [postlist, setPostlist] = useState([]);
   const [followList, setFollowList] = useState([]);
@@ -108,7 +110,7 @@ export default function Postgrid() {
   };
 
   return (
-    <div className="postContainer" style={{ width: window.innerWidth <= 768 && "92%" }}>
+    <div className="postContainer" style={{ width: isMobile && "92%" }}>
       {postlist.map((post, index) => (
         <div style={{
           background: darkMode ? "#262626" : "#fff", color: darkMode ? "#8e8f8f" : "black",

@@ -4,9 +4,11 @@ import axios from "axios";
 import { DarkModeContext } from "../utils/DarkModeContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth/AuthProvider";
+import { useMediaQuery } from "react-responsive";
 
 export default function Newspace({ closeModal }) {
     const { darkMode } = useContext(DarkModeContext);
+    const isMobile = useMediaQuery({ maxWidth: 768 });
     const titleRef = useRef();
     const contentRef = useRef();
     const nameRef = useRef();
@@ -59,7 +61,7 @@ export default function Newspace({ closeModal }) {
 
     return (
         <div className="modal-container" style={{ color: darkMode ? '#d5d6d6' : 'black', border: darkMode ? '1px solid #474646' : '1px solid grey' }}>
-            <div className="Signup-container" style={{ height: "70%", width:window.innerWidth>768 ? "45%":"70%", background: darkMode ? "black" : '#fff', position: "relative" }}>
+            <div className="Signup-container" style={{ height: "70%", width:!isMobile ? "45%":"70%", background: darkMode ? "black" : '#fff', position: "relative" }}>
                 <button className="close" onClick={() => closeModal(false)} style={{ background: darkMode ? "black" : '#fff', color: darkMode ? 'white' : 'black' }}>
                     X
                 </button>

@@ -4,11 +4,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import axios from "axios";
 import { useAuth } from "../Auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 export default function Comment({ post }) {
   const { darkMode } = useContext(DarkModeContext);
   const name = JSON.parse(sessionStorage.getItem("userName"));
   const commentRef = useRef();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const [commentDetails, setCommentDetails] = useState([]);
   const authorId = JSON.parse(sessionStorage.getItem("user"));
   const { isLoggedIn } = useAuth();
@@ -112,7 +114,7 @@ export default function Comment({ post }) {
           required
         />
         <button className="addCommentbtn" onClick={handleComment}>
-          {window.innerWidth > 768 ? "Add comment" : "Add"}
+          {!isMobile ? "Add comment" : "Add"}
         </button>
       </section>
       {commentDetails.map((comment, index) => (

@@ -3,10 +3,12 @@ import LanguageIcon from '@mui/icons-material/Language';
 import { grey } from "@mui/material/colors";
 import { DarkModeContext } from "./DarkModeContext";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { useMediaQuery } from "react-responsive";
 
 export default function CustomDropdown() {
     const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
     const [isOpen, setIsOpen] = useState(false);
+    const isMobile = useMediaQuery({ maxWidth: 768 });
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -30,7 +32,7 @@ export default function CustomDropdown() {
                         color: darkMode ? 'white' : 'black',
                         border: darkMode ? '1px solid #474646' : '1px solid grey',
                         cursor:"not-allowed",
-                       paddingRight:window.innerWidth<=768 && "100px"
+                       paddingRight:isMobile&& "100px"
                     }}>
                     <div>
                         <p style={{ borderBottom: darkMode ? '1px solid #474646' : '1px solid grey',padding:"1% 6%"}}>Languages</p>
