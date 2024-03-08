@@ -18,7 +18,7 @@ export default function Navbar() {
 
     useEffect(() => {
         const isDarkMode = JSON.parse(localStorage.getItem("darkMode"));
-        toggleDarkMode(isDarkMode);
+        // toggleDarkMode(isDarkMode);
     }, []);
 
     const initialStates = {
