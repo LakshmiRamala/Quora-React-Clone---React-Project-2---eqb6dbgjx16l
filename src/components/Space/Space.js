@@ -68,7 +68,7 @@ export default function Space() {
 
     return (
         <div style={{ display: "flex", justifyContent: "center", marginLeft: !isMobile ? "15%" : "3%", position: "relative", }}>
-            <div style={{ flexDirection: "column", width: "100%", marginTop:!isMobile > 768 ? "5%" : "120px" }}>
+            <div style={{ flexDirection: "column", width: "100%", marginTop:!isMobile  ? "5%" : "120px" }}>
             { isLoggedIn &&  <section className={darkMode ? "MainDark AddquestinHome" : "Main AddquestinHome"} style={{ color: darkMode ? "#d1d6d6" : "black", height: "auto", width: isMobile && "80%" }} id="spaceimage">
                   <section>
                         <h3>Welcome to Spaces!</h3>
